@@ -12,24 +12,31 @@
     <link rel="icon"  href="./images/logo.png">
     <link rel="stylesheet" href="styles/main.css">
   </head>
-  <body>
+  <body  id="signup-page">
     <!--[if IE]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
     <header>
       <a href="./index.html" id="logo">Circe</a>
-      <nav class="menu">
-        <ul>
-          <li><a href="./about.html" class="menu-items" title="Go to About Page">About</a></li>
-          <li><a href="./faq.html" class="menu-items"  title="Go to FAQ Page">FAQ</a></li>
-          <li><a href="./login.html" class="menu-items"  title="Go to Login Page">Login</a></li>
-          <li class="btn-sign-up"><a href="./signup.html" class="menu-items"  title="Go to Sign Up Page">Sign Up</a></li>
-        </ul>
-      </nav>
     </header>
     <main>
-     
+        <section>
+            <article>
+                <h1>Create An Account</h1>
+                <form action="" id="signup">
+                    <input type="name" id="userFirstName" autofocus autocomplete="given-name">
+                    <input type="name" id="userLastName" autocomplete="family-name">
+                    <input type="email" id="userEmail" autocomplete="email">
+                    <input type="password" id="userNewPassword" autocomplete="new-password">
+                    <input type="password" id="userVerifyPassword">
+                    <input type="submit" value="create an account" id="btn-submit-sign-up">
+                    <div class="other-form-functions">
+                        <p>Already have an account? <span><a href="./login.html">Login</a></span></p>
+                    </div>
+                </form>
+            </article>
+        </section>
     </main>
     <script src="./js/app.js"></script>
   </body>
