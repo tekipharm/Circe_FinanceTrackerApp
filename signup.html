@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon" href="./images/logo.png">
     <meta name="theme-color" content="#EFF7FE">
     <link rel="icon"  href="./images/logo.png">
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="./stylesheet.css">
   </head>
   <body  id="signup-page">
     <!--[if IE]>
@@ -21,15 +21,15 @@
       <a href="./index.html" id="logo">Circe</a>
     </header>
     <main>
-        <section>
+        <section class="signup-section">
             <article>
                 <h1>Create An Account</h1>
                 <form action="" id="signup">
-                    <input type="name" id="userFirstName" autofocus autocomplete="given-name">
-                    <input type="name" id="userLastName" autocomplete="family-name">
-                    <input type="email" id="userEmail" autocomplete="email">
-                    <input type="password" id="userNewPassword" autocomplete="new-password">
-                    <input type="password" id="userVerifyPassword">
+                    <input type="name" id="userFirstName" autofocus autocomplete="given-name" placeholder="First Name">
+                    <input type="name" id="userLastName" autocomplete="family-name" placeholder="Last Name">
+                    <input type="email" id="userEmail" autocomplete="email" placeholder="Email Address">
+                    <input type="password" id="userNewPassword" autocomplete="new-password" placeholder="Password">
+                    <input type="password" id="userVerifyPassword" placeholder="Confirm Password">
                     <input type="submit" value="create an account" id="btn-submit-sign-up">
                     <div class="other-form-functions">
                         <p>Already have an account? <span><a href="./login.html">Login</a></span></p>
