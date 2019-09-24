@@ -50,3 +50,8 @@
     padding: 0;
     margin: 0;
 }
+
+body, header, main, section, article, nav{
+    display: flex;
+    flex-wrap: wrap;
+}
