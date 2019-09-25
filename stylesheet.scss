@@ -66,7 +66,7 @@ body{
     background: $bgColor;
     color: $blueForeColor;
     padding: 30px 100px;
-
+    font-family: 'Gilroy-Regular', sans-serif;
 
     p, a{
         font-family: 'Gilroy-Bold', sans-serif;
@@ -221,7 +221,7 @@ body{
             }
         }
 
-        input{
+        input, textarea{
             width: calc(100% - 20px);
             max-width: calc(100% - 20px);
             margin: 10px auto;
@@ -331,5 +331,163 @@ body{
                 }
             }
         }
-    }    
+    }
+    
+    &#dashboard{
+        $footerHeight: 40px;
+        $headerWidth: 300px;
+
+        display: grid;
+        grid-template-columns: $headerWidth auto;
+        grid-template-rows: auto $footerHeight;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        max-width: 100%;
+
+        header{
+            $headerPadding: 40px;
+            grid-column: 1/2;
+            grid-row: 1/3;
+            background: $blueForeColor;
+            color: #fff;
+            padding: $headerPadding 0px;
+            display: grid;
+            grid-template-rows: 64px auto;
+            grid-template-columns: 100%;
+
+            a#logo{
+                width: 100%;
+                text-align: center;
+                color: #fff;
+                margin: auto;
+            }
+
+            nav{
+                width: 100%;
+                margin: 40px auto;
+                grid-row: 2/3;
+                grid-column: 1/2;
+                ul{
+                    $noOfChildren: 6;
+                    display: grid;
+                    grid-template-rows: repeat($noOfChildren, 75px);
+
+                    li{
+                        width: 100%;
+                        // height: 100%;
+                        padding: 10px 0px;
+                        display: flex;
+                        flex-wrap: wrap;
+
+                        &#welcome p{
+                            font-family: 'Gilroy-Bold', sans-serif;
+                            font-size: 24px;
+                            margin: auto;
+                            text-align: center;
+                        }
+
+                        img#user-img{
+                            width: 50px;
+                            height: 50px;
+                            margin: auto;
+                        }
+
+                        &.container{
+
+                            &.selected{
+                                $borderHeight: 2px;
+                                border-top: $borderHeight solid #fff;
+                                border-bottom: $borderHeight solid #fff;
+
+                            }
+
+                            button{
+                                display: flex;
+                                flex-wrap: wrap;
+                                width: 80%;
+                                margin: auto;
+                                background: transparent;
+                                border: 1px solid transparent;
+                                padding: 10px;
+                                align-content: center;
+
+                                img{
+                                    height: 50px;
+                                    width: 50px;
+                                    margin: auto;
+                                }
+
+                                p{
+                                    font-family: 'Gilroy-Bold', sans-serif;
+                                    font-style: normal;
+                                    font-weight: bold;
+                                    font-size: 24px;
+                                    line-height: 30px;
+                                    margin: auto;
+                                    color: #FFFFFF;
+                                }
+
+                                &:hover{
+                                    background-color: rgba(#fff, 0.25);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        footer, main{
+            grid-column: 2/3;
+        }
+
+        main{
+            $mainPadding: 10px;
+            grid-row: 1/2;
+            min-height: calc(100vh - #{$footerHeight});
+            width: 100%;
+            // max-width: calc(100% - #{$mainPadding});
+            padding: $mainPadding 0px;
+
+            section{
+                article{
+                    h1{
+                        text-align: center;
+                        margin: 10px auto;
+                    }
+
+                    form{
+                        padding: 30px 26px;
+                        margin: 20px auto;
+                        textarea{
+                            height: 100px;
+                        }
+                    }
+                }
+            }
+        }
+
+        footer{
+            grid-row: 2/3;
+            nav{
+                margin: auto;
+                ul{
+                    margin-left: auto;
+                    list-style: none;
+                    li{
+                        display: inline-block;
+                        padding: 5px;
+                        margin: auto 10px;
+                        text-transform: uppercase;
+
+                        a{
+                            text-decoration: none;
+                            color: $blueForeColor;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

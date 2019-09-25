@@ -58,6 +58,7 @@ body {
   background: #EFF7FE;
   color: #011B33;
   padding: 30px 100px;
+  font-family: 'Gilroy-Regular', sans-serif;
 }
 
 body p, body a {
@@ -233,7 +234,7 @@ body form#signup input#userVerifyPassword {
   grid-row: 4/5;
 }
 
-body form input {
+body form input, body form textarea {
   width: calc(100% - 20px);
   max-width: calc(100% - 20px);
   margin: 10px auto;
@@ -242,23 +243,23 @@ body form input {
   font-size: 1em;
 }
 
-body form input::-webkit-input-placeholder {
+body form input::-webkit-input-placeholder, body form textarea::-webkit-input-placeholder {
   color: #787A7C;
 }
 
-body form input:-ms-input-placeholder {
+body form input:-ms-input-placeholder, body form textarea:-ms-input-placeholder {
   color: #787A7C;
 }
 
-body form input::-ms-input-placeholder {
+body form input::-ms-input-placeholder, body form textarea::-ms-input-placeholder {
   color: #787A7C;
 }
 
-body form input::placeholder {
+body form input::placeholder, body form textarea::placeholder {
   color: #787A7C;
 }
 
-body form input[type="submit"] {
+body form input[type="submit"], body form textarea[type="submit"] {
   background: #011B33;
   color: #fff;
   text-transform: capitalize;
@@ -361,5 +362,180 @@ body#landing-page main section article#landing-page-image {
   grid-column: 2/3;
   padding: 10px;
   margin: auto;
+}
+
+body#dashboard {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 300px auto;
+      grid-template-columns: 300px auto;
+  -ms-grid-rows: auto 40px;
+      grid-template-rows: auto 40px;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+body#dashboard header {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1/2;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 2;
+  grid-row: 1/3;
+  background: #011B33;
+  color: #fff;
+  padding: 40px 0px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 64px auto;
+      grid-template-rows: 64px auto;
+  -ms-grid-columns: 100%;
+      grid-template-columns: 100%;
+}
+
+body#dashboard header a#logo {
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  margin: auto;
+}
+
+body#dashboard header nav {
+  width: 100%;
+  margin: 40px auto;
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 1;
+  grid-row: 2/3;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1/2;
+}
+
+body#dashboard header nav ul {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: (75px)[6];
+      grid-template-rows: repeat(6, 75px);
+}
+
+body#dashboard header nav ul li {
+  width: 100%;
+  padding: 10px 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+body#dashboard header nav ul li#welcome p {
+  font-family: 'Gilroy-Bold', sans-serif;
+  font-size: 24px;
+  margin: auto;
+  text-align: center;
+}
+
+body#dashboard header nav ul li img#user-img {
+  width: 50px;
+  height: 50px;
+  margin: auto;
+}
+
+body#dashboard header nav ul li.container.selected {
+  border-top: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+}
+
+body#dashboard header nav ul li.container button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  width: 80%;
+  margin: auto;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 10px;
+  -ms-flex-line-pack: center;
+      align-content: center;
+}
+
+body#dashboard header nav ul li.container button img {
+  height: 50px;
+  width: 50px;
+  margin: auto;
+}
+
+body#dashboard header nav ul li.container button p {
+  font-family: 'Gilroy-Bold', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 30px;
+  margin: auto;
+  color: #FFFFFF;
+}
+
+body#dashboard header nav ul li.container button:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+body#dashboard footer, body#dashboard main {
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-column: 2/3;
+}
+
+body#dashboard main {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1/2;
+  min-height: calc(100vh - 40px);
+  width: 100%;
+  padding: 10px 0px;
+}
+
+body#dashboard main section article h1 {
+  text-align: center;
+  margin: 10px auto;
+}
+
+body#dashboard main section article form {
+  padding: 30px 26px;
+  margin: 20px auto;
+}
+
+body#dashboard main section article form textarea {
+  height: 100px;
+}
+
+body#dashboard footer {
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 1;
+  grid-row: 2/3;
+}
+
+body#dashboard footer nav {
+  margin: auto;
+}
+
+body#dashboard footer nav ul {
+  margin-left: auto;
+  list-style: none;
+}
+
+body#dashboard footer nav ul li {
+  display: inline-block;
+  padding: 5px;
+  margin: auto 10px;
+  text-transform: uppercase;
+}
+
+body#dashboard footer nav ul li a {
+  text-decoration: none;
+  color: #011B33;
 }
 /*# sourceMappingURL=stylesheet.css.map */
