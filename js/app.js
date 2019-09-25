@@ -184,11 +184,12 @@ const view = {
                 const status = view.checkInputsOnAddItemForm();
                 if (status == true) {
                     const finData = new Finances(
+                        // id, title, amount, items, description, dataStamp
                         this.id = Date.now(), //For Ever Unique
                         this.title = financeRecordTitle.value,
-                        this.description = financeRecordDescription.value,
                         this.amount = financeRecordAmt.value,
                         this.items = financeRecordItems.value,
+                        this.description = financeRecordDescription.value,
                         this.dataStamp = new Date(financeRecordDate.value)
                     );
 
@@ -196,6 +197,7 @@ const view = {
                     controller.addNewFinanceData(finData);
                     alert('Data successful Added');
                     view.clearInputsOnAddItemForm();
+                    view.render();
                 }
                 else{
                     alert('Could not process, Some fields are empty');
@@ -203,12 +205,50 @@ const view = {
             })
         }
 
+        view.render();
+    },
+
+    checkInputsOnAddItemForm: () =>{
+        //Validation should happen here
+        const title = this.financeRecordTitle.value;
+        const desc = this.financeRecordDescription.value;
+        const items = this.financeRecordItems.value;
+        const amt = this.financeRecordAmt.value;
+        const recDate = this.financeRecordDate.value;
+
+        //Confirm that all are not equal to false or empty
+        if (title.trim() != "" && desc.trim() != "" &&  items.trim() != "" &&  amt.trim() != "" &&  recDate.trim() != "") {
+            console.log('Do we have space = no');
+            return true;
+        }
+        console.log('Do we have space = yes');
+        return false;
+    },
+
+    clearInputsOnAddItemForm: () =>{
+        this.financeRecordTitle.value = '';
+        this.financeRecordDescription.value = '';
+        this.financeRecordItems.value = '';
+        this.financeRecordAmt.value = '';
+        this.financeRecordDate.value = '';
+    },
+
+    render: ()=>{
         if (sectFinHistory && model.finances.length != 0) {
             const art = document.createElement('article');
+
+            const heading = document.createElement('h1');
+            heading.innerHTML = "List of Finance Record";
+            art.append(heading);
+
             const div = document.createElement('div');
+            div.classList.add('list-container');
             const ul = document.createElement('ul');
             ul.classList.add('finance-rec-list');
-            const finRec = model.finances;
+
+            const finRec = model.finances.sort((a,b)=>
+                new Date(b.dataStamp) - new Date(a.dataStamp)
+            );
 
             let frag = document.createDocumentFragment();
 
@@ -257,31 +297,6 @@ const view = {
 
             sectFinHistory.append(art);
         }
-    },
-
-    checkInputsOnAddItemForm: () =>{
-        //Validation should happen here
-        const title = this.financeRecordTitle.value;
-        const desc = this.financeRecordDescription.value;
-        const items = this.financeRecordItems.value;
-        const amt = this.financeRecordAmt.value;
-        const recDate = this.financeRecordDate.value;
-
-        //Confirm that all are not equal to false or empty
-        if (title.trim() != "" && desc.trim() != "" &&  items.trim() != "" &&  amt.trim() != "" &&  recDate.trim() != "") {
-            console.log('Do we have space = no');
-            return true;
-        }
-        console.log('Do we have space = yes');
-        return false;
-    },
-
-    clearInputsOnAddItemForm: () =>{
-        this.financeRecordTitle.value = '';
-        this.financeRecordDescription.value = '';
-        this.financeRecordItems.value = '';
-        this.financeRecordAmt.value = '';
-        this.financeRecordDate.value = '';
     }
 }
 
