@@ -121,7 +121,10 @@ const controller = {
     },
 
     getFinanceData: () => {
-        return model.finances;
+        //Since we are dealing with time, i will return data in time sort.
+        return model.finances.sort((a,b)=>
+            b.dataStamp - a.dataStamp
+        );
     },
 
     setSelectFinData: (finData) => {
@@ -150,6 +153,7 @@ const controller = {
         if(localStorage.cicre_finance){
             const modelObj = JSON.parse(localStorage.getItem('cicre_finance'));
             console.log('modelObj', modelObj);
+            modelObj.finances.forEach(f=>f.dataStamp = new Date(f.dataStamp))
             for (const key in model) {
                 model[key] = modelObj[key];
             }
@@ -170,6 +174,7 @@ const view = {
         this.financeRecordItems = document.getElementById('finance-record-items');
         this.financeRecordAmt = document.getElementById('finance-record-amt');
         this.financeRecordDate = document.getElementById('finance-record-date');
+        this.sectFinHistory = document.getElementById('finance-history');
 
         const btnAddFinancRec = document.getElementById('submit-finance-record');
 
@@ -196,6 +201,61 @@ const view = {
                     alert('Could not process, Some fields are empty');
                 }
             })
+        }
+
+        if (sectFinHistory && model.finances.length != 0) {
+            const art = document.createElement('article');
+            const div = document.createElement('div');
+            const ul = document.createElement('ul');
+            ul.classList.add('finance-rec-list');
+            const finRec = model.finances;
+
+            let frag = document.createDocumentFragment();
+
+            finRec.forEach(rec=>{
+                //This helps list the record
+                const li = document.createElement('li');
+                li.classList.add('finance-rec-list-item');
+
+                //For Title
+                const pTitle = document.createElement('p');
+                pTitle.setAttribute('data-finRec', "title");
+                pTitle.innerHTML = rec.title;
+                li.append(pTitle);
+
+                //For amount
+                const pAmount = document.createElement('p');
+                pAmount.setAttribute('data-finRec', "amount");
+                pAmount.innerHTML = rec.amount;
+                li.append(pAmount);
+
+                //For items
+                const pItems = document.createElement('p');
+                pItems.setAttribute('data-finRec', "items");
+                pItems.innerHTML = rec.items;
+                li.append(pItems);
+
+                //For description
+                const pDescription = document.createElement('p');
+                pDescription.setAttribute('data-finRec', "description");
+                pDescription.innerHTML = rec.description;
+                li.append(pDescription);
+
+                //For dataStamp
+                const pDateStamp = document.createElement('p');
+                pDateStamp.setAttribute('data-finRec', "dataStamp");
+                const td = new Date(rec.dataStamp);
+                pDateStamp.innerHTML = td.toDateString();
+                li.append(pDateStamp);
+
+                frag.append(li);
+            });
+
+            ul.append(frag);
+            div.append(ul);
+            art.append(div);
+
+            sectFinHistory.append(art);
         }
     },
 
