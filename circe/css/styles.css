@@ -1,0 +1,226 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+body{
+    background: #eff7fe;
+}
+header{
+    display:flex;
+   justify-content: space-between;
+   height:8vh;
+    
+}
+.circelogo{
+    width:30%
+}
+.logo{
+    text-align: center;
+    position:absolute;
+    top:3%;
+    left:5%;
+    font-family: 'GingerPeachy';
+    font-size: 37px;
+    color: rgba(2, 38, 75, 0.829);
+}
+.nav{
+    width:50%;
+}
+.list{
+    list-style: none;
+    display: flex;
+    width:100%;
+}
+.item{
+    width:20%;
+    height:100%;
+    text-align: center;
+    margin:4% 3%;
+    font-style: normal;
+    font-weight:bold;
+    
+}
+.item-link{
+    text-decoration: none;
+    color:rgba(2, 38, 75, 0.829);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:18px;
+    padding:20%;
+    width:100%;
+    /* border-radius:10px; */
+}
+.item-link:focus, .item:focus{
+    background: linear-gradient(to  right,#011b3393,#0435637a,rgba(24, 148, 206, 0.479));
+    color:whitesmoke;
+}
+.button{
+    width:15%;
+    background:#011B33;
+    height:6vh;
+    margin:3% 0;
+    padding:10px;
+    border-radius: 10px;
+}
+.btnlink{
+    color:white;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+/* media query */
+@media only screen and (max-width: 600px){
+    .item-link {
+        font-size:12px;
+    }
+    .item{
+        margin:10% 1%;
+    }
+    .nav{
+        width:70%;
+    }
+    .logo{
+        font-size:20px;
+    }
+    .button{
+        padding:4px;
+        width:25%;
+        height: 4vh;
+        margin:9% 1%;
+    }
+    .btnlink{
+        font-size: 12px;
+    }
+}
+/* main */
+h2{
+    /* background:linear-gradient(to bottom left,#011b33d7,#043563b6,rgba(245, 245, 245, 0.774)); */
+    height:15vh;
+    clip-path: polygon(20.3723 39.282,11.392 92.293);
+    color:whitesmoke;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:40px;
+    font-weight:lighter;
+    letter-spacing: -2px;
+    padding:30px;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    width:50%;
+    margin:5% auto;
+    font-weight: bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color:rgba(1, 27, 51, 0.815);
+    padding: 5%;
+    background: rgba(245, 245, 245, 0.863);
+    border-radius: 5px;
+}
+
+form input:first-child{
+    height:6vh;
+    width:100%;
+    border-radius:4px;
+    margin:2% 0;
+    padding:10px;
+}
+form input:focus{
+    outline-color: rgba(4, 54, 100, 0.767);
+}
+textarea{
+    width:100%;
+    border-radius:4px;
+    margin:2% 0;
+    padding:10px;
+}
+textarea:focus{
+    outline-color: rgba(4, 54, 100, 0.767);
+}
+form input:last-child{
+    width:30%;
+    height:6vh;
+    border-radius:10px;
+    border:none;
+    margin:auto;
+    color:white;
+    font-size:18px;
+    font-weight:600;
+    background: linear-gradient(to  right,#011b3393,#0435637a,rgba(24, 148, 206, 0.479));
+}
+/* media query for form */
+@media only screen and (max-width: 600px){
+    form{
+        width:80%;
+        margin: 10% auto;
+    }
+    form input:last-child{
+        font-size:15px;
+    }
+}
+@media only screen and (min-width:601px) and (max-width:1100px){
+    form{
+        width:70%;
+    }
+    form input:last-child{
+        height:5vh;
+        font-size:20px;
+    }
+    .item{
+        margin:7% 3%;
+    }
+    .nav{
+        width:60%;
+    }
+    .button{
+        height:5vh;
+        margin:6% 1%;
+        width:30%;
+    }
+    .btnlink{
+        text-align:center;
+    }
+}
+
+.clip{
+    background:linear-gradient(to top,#011b3396,#011b3371,rgba(26, 150, 207, 0.582));
+    width:100%;
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+    clip-path:inset(0% 50% 0% 10%);
+}
+.newclip{
+    background:linear-gradient(to top,#011b3375,#011b338f,rgba(26, 150, 207, 0.568));
+    width:100%;
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-2;
+    clip-path:inset(0% 90% 0% 0%);
+
+}
+.newclip1{
+    background:linear-gradient(to top,#011b3394,#011b3370,rgba(26, 150, 207, 0.507));
+    width:100%;
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-2;
+    clip-path:inset(0% 30% 0% 30%);
+
+}
+.newclip2{
+    background:linear-gradient(to top,#011b3396,#011b3371,rgba(26, 150, 207, 0.582));
+    width:100%;
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-2;
+    clip-path:inset(0% 0% 0% 70%);
+
+}
