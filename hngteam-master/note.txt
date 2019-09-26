@@ -1,0 +1,24 @@
+MOSTLY IMPORTANT THING IS TRY WORKING ON THE  SIGNUP AND LOGIN WHEN THE USER SIGNUP IT SUBMIT THE USER informationGIT  TO THE database 
+
+
+work on  sending the information to the database
+Work on the add history, add the database 
+
+my code in sign.php is incorrect from number 1 to number 13 it is not send the inforamtion to the database
+my code in log.php is incorrect from number 1 to number 13 it is not send the inforamtion to the database
+
+work on the dashboard  add anything or any changes 
+Work on the logout in the dashboard
+work on uploading the image
+work on the add history button
+
+MY HEAD IS HOT SO..SO HOT
+
+
+//singup.php is the form page
+//while the sign is the php validation code
+//login.php  is the login page
+//while the log is the php validation and neccessary code
+//index.html is the homepage
+//calculate.js is the javascript code for calculation when you click on the calculate
+ 
