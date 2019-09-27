@@ -184,6 +184,16 @@ body{
         }
     }
 
+    section#finance-history{
+        display: none;
+        flex-wrap: wrap;
+
+        article{
+            display: grid;
+            grid-template-rows: 100px auto;
+        }
+    }
+
     form{
         width: 90%;
         max-width: 430px;

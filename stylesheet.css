@@ -177,6 +177,19 @@ body main section.login-section article h1, body main section.signup-section art
   color: #011B33;
 }
 
+body section#finance-history {
+  display: none;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+body section#finance-history article {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 100px auto;
+      grid-template-rows: 100px auto;
+}
+
 body form {
   width: 90%;
   max-width: 430px;
