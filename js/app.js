@@ -9,8 +9,7 @@ class Items{
 // Class to define each finance data object
 
 class Finances{
-    constructor(id, title, amount, items, description, dataStamp){
-        this.id = id,  //Plan to use Date.now();
+    constructor(title, amount, items, description, dataStamp){
         this.title = title;
         this.amount = amount;
         this.items = items; //An array of items
@@ -176,15 +175,107 @@ const controller = {
 
 const view = {
     init: ()=>{
+
+        this.itemsList = [];
+
+        //get item amounts
+        const getItemAmts = () =>{
+            // return $("fieldset#item-list").serializeArray();
+            itemsList = [];
+            let totalAmt = 0;
+
+            $("#item-list").children('div.item').each(function() {
+                const itemName = $(this).find('input[name="item"]')[0].value;
+                const itemAmt = $(this).find('input[name="amount"]')[0].value;
+                // console.log(this + '- children', itemName);
+                // console.log(this + '- children2', itemAmt);
+                const itemObj = new Items(itemName, itemAmt);
+                // console.log('itemObj', itemObj);
+
+                itemsList.push(itemObj);
+            });
+
+            itemsList.forEach(item=>{
+                totalAmt +=  +item.itemAmt; //plus converts it to number
+            });
+
+            $('#finance-record-total-amt')[0].value = totalAmt;
+            // console.log(totalAmt);
+        }
+
+        const inputItemChange = () =>{
+            //Listen to input item change
+            $('input[name="amount"].itemAmt').keyup(getItemAmts);
+
+            //This handles auto suggested values.
+            $('input[name="amount"].itemAmt').change(getItemAmts);
+        };
+
+        //Create new Item
+        const createNewItem = () => {
+            const newHTML = `
+                <div class="item">
+                    <label for="finance-record-items">
+                        Items:
+                        <input class="itemName" type="text" name="item" class="finance-record-items" placeholder="e.g Carrot" required>
+                    </label>
+                    <label for="finance-record-amt">
+                        Amount(₦):
+                        <input class="itemAmt" type="number" name="amount" id="finance-record-amt" placeholder="6000" min="0" required>
+                    </label>
+                    <button class="remove-item" title="Remove this item">x</button>
+                </div>`;
+            $(newHTML).insertAfter('div.item.first-item');
+                
+            $('button.remove-item').hover(function () {
+                // evt.preventDefault();
+                // console.log('kkk');
+                $(this).parent('div.item').css('box-shadow', '0px 4px 4px rgba(0, 0, 0, 0.5)')
+            },
+            function () {
+                // evt.preventDefault();
+                // console.log($(this).parent('div.item'));
+                $(this).parent('div.item').attr('style', 'box-shadow :none)')
+            });
+
+            //Remove item
+            $('button.remove-item').click(function (evt) {
+                evt.preventDefault();
+                // console.log('kkk');
+                $(this).parent('div.item').slideUp(function () {
+                $(this).remove();
+                getItemAmts();
+                });
+            });
+
+            //Listen to input item change
+            inputItemChange();
+        }
+
+        const startAppDashboard = () =>{
+            //Help us add more items
+            $('button.add-item').click(function (evt) {
+                evt.preventDefault();
+                // console.log('kkk');
+                createNewItem();
+            });
+
+            inputItemChange();
+        }
+
+        if(top.document.location.pathname == "/dashboard.html"){
+            startAppDashboard();
+        }
+      
         //For Dashboard Add form
         this.financeRecordTitle = document.getElementById('finance-record-title');
         this.financeRecordDescription = document.getElementById('finance-record-description');
-        // this.financeRecordItems = document.getElementById('finance-record-items');
-        // this.financeRecordAmt = document.getElementById('finance-record-amt');
+        this.financeTotalAmt = document.getElementById('finance-record-total-amt');
         this.financeRecordDate = document.getElementById('finance-record-date');
         this.sectFinHistory = document.getElementById('finance-history');
 
         const btnAddFinancRec = document.getElementById('submit-finance-record');
+        
 
         if(btnAddFinancRec){
             btnAddFinancRec.addEventListener('click', function() {
@@ -192,11 +283,10 @@ const view = {
                 const status = view.checkInputsOnAddItemForm();
                 if (status == true) {
                     const finData = new Finances(
-                        // id, title, amount, items, description, dataStamp
-                        this.id = Date.now(), //For Ever Unique
+                        //title, amount, items, description, dataStamp
                         this.title = financeRecordTitle.value,
-                        // this.amount = financeRecordAmt.value,
-                        // this.items = financeRecordItems.value,
+                        this.amount = financeTotalAmt.value,
+                        this.items = itemsList,
                         this.description = financeRecordDescription.value,
                         this.dataStamp = new Date(financeRecordDate.value)
                     );
@@ -220,12 +310,12 @@ const view = {
         //Validation should happen here
         const title = this.financeRecordTitle.value;
         const desc = this.financeRecordDescription.value;
-        // const items = this.financeRecordItems.value;
-        // const amt = this.financeRecordAmt.value;
+        const items = this.itemsList;
+        const amt = this.financeTotalAmt.value;
         const recDate = this.financeRecordDate.value;
 
         //Confirm that all are not equal to false or empty
-        if (title.trim() != "" && desc.trim() != "" &&  items.trim() != "" &&  amt.trim() != "" &&  recDate.trim() != "") {
+        if (title.trim() != "" && desc.trim() != "" &&  items.length != 0 &&  amt.trim() != "" &&  recDate.trim() != "") {
             console.log('Do we have space = no');
             return true;
         }
@@ -236,9 +326,10 @@ const view = {
     clearInputsOnAddItemForm: () =>{
         this.financeRecordTitle.value = '';
         this.financeRecordDescription.value = '';
-        this.financeRecordItems.value = '';
-        // this.financeRecordAmt.value = '';
+        this.financeTotalAmt.value = '';
         this.financeRecordDate.value = '';
+        $('button.remove-item').parent('div.item').remove();
+        $('div.first-item').find('input').val('');
     },
 
     render: ()=>{
@@ -262,6 +353,7 @@ const view = {
 
             finRec.forEach(rec=>{
                 //This helps list the record
+                console.log('rec', rec);
                 const li = document.createElement('li');
                 li.classList.add('finance-rec-list-item');
 
@@ -274,13 +366,31 @@ const view = {
                 //For amount
                 const pAmount = document.createElement('p');
                 pAmount.setAttribute('data-finRec', "amount");
-                pAmount.innerHTML = rec.amount;
+                pAmount.innerHTML = '₦ ' + rec.amount;
                 li.append(pAmount);
+
+                //Make a frag of each item
+                const allItems = (arrayItems) =>{
+                    const ulItem = document.createElement('ul');
+                    const ulFrag = document.createDocumentFragment();
+
+                    arrayItems.forEach(item=>{
+                        const liItem = document.createElement('li');
+                        liItem.innerHTML = `
+                            <span class= 'hist-rec-name'>${item.itemName}</span>, 
+                            <span class= 'hist-rec-amt'>₦${item.itemAmt}</span>
+                        `
+                        ulFrag.append(liItem);
+                    });
+                    ulItem.append(ulFrag);
+                    return ulItem;
+                }
 
                 //For items
                 const pItems = document.createElement('p');
                 pItems.setAttribute('data-finRec', "items");
-                pItems.innerHTML = rec.items;
+                console.log(rec.items);
+                pItems.append(allItems(rec.items));
                 li.append(pItems);
 
                 //For description
