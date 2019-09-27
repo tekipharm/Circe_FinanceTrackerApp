@@ -1,17 +1,24 @@
+//Each item record of finance app
+class Items{
+    constructor(itemName, itemAmt){
+        this.itemName = itemName;
+        this.itemAmt = itemAmt;
+    }
+}
+
 // Class to define each finance data object
 
 class Finances{
-    constructor(id, title, amount, items, description, timeStamp){
-        this.id = id,  //Plan to use Date.now();
+    constructor(title, amount, items, description, dataStamp){
         this.title = title;
         this.amount = amount;
         this.items = items; //An array of items
         this.description = description;
-        this.timeStamp = timeStamp; //Date Object
+        this.dataStamp = dataStamp; //Date Object
     }
 
     calcWeekNo() {
-        let dt = timeStamp;
+        let dt = dataStamp;
         var tdt = new Date(dt.valueOf());
         var dayn = (dt.getDay() + 6) % 7;
         tdt.setDate(tdt.getDate() - dayn + 3);
@@ -30,7 +37,7 @@ class Finances{
 
     calcMonth(){
         let  finMonth = '';
-        const monthIndex = timeStamp.getMonth();
+        const monthIndex = dataStamp.getMonth();
         const monthIndexValue ={
             'January': 1,
             'February': 2,
@@ -60,7 +67,7 @@ class Finances{
     }
 
     get year(){
-        return timeStamp.getFullYear();
+        return dataStamp.getFullYear();
     }
 }
 
@@ -75,15 +82,24 @@ const model = {
 //Controller is made to communicate between Model and View
 
     //So basically, we add finance and it's documented as liability or income.
-const controler = {
+const controller = {
     init: () =>{
         model.finances = [ ],
         model.selectedFinanceData = null
+
+        if(localStorage.cicre_finance){
+            controller.convertLocalToModel();
+        }
+
+        view.init();
     },
 
     addNewFinanceData: (data) =>{
         // Add finance data to the model . Data should belong to class Finances
         model.finances.push(data);
+
+        //Update in Local Storage
+        controller.addDataToLocal();  
     },
 
     updateFinanceData: (newData) =>{
@@ -92,7 +108,10 @@ const controler = {
         this.financeData.amount = newData.amount;
         this.financeData.items = newData.items;
         this.financeData.description = newData.description;
-        this.financeData.timeStamp = newData.timeStamp;
+        this.financeData.dataStamp = newData.dataStamp;
+
+        //Update in Local Storage
+        controller.addDataToLocal();    
     },
 
     deleteFinanceData: (currentData) =>{
@@ -104,11 +123,15 @@ const controler = {
                 // set selectData to null 
                 model.selectedFinanceData = null;
             }
-        });        
+        });    
+        controller.addDataToLocal();    
     },
 
     getFinanceData: () => {
-        return model.finances;
+        //Since we are dealing with time, i will return data in time sort.
+        return model.finances.sort((a,b)=>
+            b.dataStamp - a.dataStamp
+        );
     },
 
     setSelectFinData: (finData) => {
@@ -117,7 +140,311 @@ const controler = {
 
     getSelectFinData: () => {
        return model.selectedFinanceData;
+    },
+
+    addDataToLocal: () =>{
+        //Clear all old data
+        localStorage.clear()
+
+        // then add these
+        // const obj = model;
+        console.log('model', model);
+        const obj = JSON.stringify(model);
+        console.log('obj', obj);
+        localStorage.setItem('cicre_finance', obj);
+        console.log('Moved in', localStorage);
+    },
+
+    convertLocalToModel: function(){
+        //This function is only called when we have the same data, so all we need to do is get the stored data and render.
+        if(localStorage.cicre_finance){
+            const modelObj = JSON.parse(localStorage.getItem('cicre_finance'));
+            console.log('modelObj', modelObj);
+            modelObj.finances.forEach(f=>f.dataStamp = new Date(f.dataStamp))
+            for (const key in model) {
+                model[key] = modelObj[key];
+            }
+            console.log('Model', model);
+        } else{
+            //Not in storage
+            // controller.defaultSelectedLang();
+            console.log('%cError' + '%c No set Language in Local Storage', "background-color: red; color: white", "color: red");
+        }
     }
 }
 
-controler.init();
+const view = {
+    init: ()=>{
+
+        this.itemsList = [];
+
+        //get item amounts
+        const getItemAmts = () =>{
+            // return $("fieldset#item-list").serializeArray();
+            itemsList = [];
+            let totalAmt = 0;
+
+            $("#item-list").children('div.item').each(function() {
+                const itemName = $(this).find('input[name="item"]')[0].value;
+                const itemAmt = $(this).find('input[name="amount"]')[0].value;
+                // console.log(this + '- children', itemName);
+                // console.log(this + '- children2', itemAmt);
+                const itemObj = new Items(itemName, itemAmt);
+                // console.log('itemObj', itemObj);
+
+                itemsList.push(itemObj);
+            });
+
+            itemsList.forEach(item=>{
+                totalAmt +=  +item.itemAmt; //plus converts it to number
+            });
+
+            $('#finance-record-total-amt')[0].value = totalAmt;
+            // console.log(totalAmt);
+        }
+
+        const inputItemChange = () =>{
+            //Listen to input item change
+            $('input[name="amount"].itemAmt').keyup(getItemAmts);
+
+            //This handles auto suggested values.
+            $('input[name="amount"].itemAmt').change(getItemAmts);
+        };
+
+        //Create new Item
+        const createNewItem = () => {
+            const newHTML = `
+                <div class="item">
+                    <label for="finance-record-items">
+                        Items:
+                        <input class="itemName" type="text" name="item" class="finance-record-items" placeholder="e.g Carrot" required>
+                    </label>
+                    <label for="finance-record-amt">
+                        Amount(₦):
+                        <input class="itemAmt" type="number" name="amount" id="finance-record-amt" placeholder="6000" min="0" required>
+                    </label>
+                    <button class="remove-item" title="Remove this item">x</button>
+                </div>`;
+            $(newHTML).insertAfter('div.item.first-item');
+                
+            $('button.remove-item').hover(function () {
+                // evt.preventDefault();
+                // console.log('kkk');
+                $(this).parent('div.item').css('box-shadow', '0px 4px 4px rgba(0, 0, 0, 0.5)')
+            },
+            function () {
+                // evt.preventDefault();
+                // console.log($(this).parent('div.item'));
+                $(this).parent('div.item').attr('style', 'box-shadow :none)')
+            });
+
+            //Remove item
+            $('button.remove-item').click(function (evt) {
+                evt.preventDefault();
+                // console.log('kkk');
+                $(this).parent('div.item').slideUp(function () {
+                $(this).remove();
+                getItemAmts();
+                });
+            });
+
+            //Listen to input item change
+            inputItemChange();
+        }
+
+        const startAppDashboard = () =>{
+            //Help us add more items
+            $('button.add-item').click(function (evt) {
+                evt.preventDefault();
+                // console.log('kkk');
+                createNewItem();
+            });
+
+            //Ugly
+            $('button#add-item').click(function (evt) {
+                evt.preventDefault();
+                view.hideSection();
+                $('section#add-items-sect').show();
+                $('li.container').removeClass('selected');
+                window.scrollTo(0, 0);
+            });
+
+            $('button#show-finance-history').click(function (evt) {
+                evt.preventDefault();
+                view.hideSection();
+                $('section#finance-history').show();
+                window.scrollTo(0, 0);
+            });
+
+            inputItemChange();
+        }
+
+        if(top.document.location.pathname == "/dashboard.html"){
+            startAppDashboard();
+        }
+      
+        //For Dashboard Add form
+        this.financeRecordTitle = document.getElementById('finance-record-title');
+        this.financeRecordDescription = document.getElementById('finance-record-description');
+        this.financeTotalAmt = document.getElementById('finance-record-total-amt');
+        this.financeRecordDate = document.getElementById('finance-record-date');
+        this.sectFinHistory = document.getElementById('finance-history');
+
+        const btnAddFinancRec = document.getElementById('submit-finance-record');
+        
+
+        if(btnAddFinancRec){
+            btnAddFinancRec.addEventListener('click', function() {
+                event.preventDefault();
+                const status = view.checkInputsOnAddItemForm();
+                if (status == true) {
+                    const finData = new Finances(
+                        //title, amount, items, description, dataStamp
+                        this.title = financeRecordTitle.value,
+                        this.amount = financeTotalAmt.value,
+                        this.items = itemsList,
+                        this.description = financeRecordDescription.value,
+                        this.dataStamp = new Date(financeRecordDate.value)
+                    );
+
+                    console.log(finData);
+                    controller.addNewFinanceData(finData);
+                    alert('Data successful Added');
+                    view.clearInputsOnAddItemForm();
+                    view.render();
+                }
+                else{
+                    alert('Could not process, Some fields are empty');
+                }
+            })
+        }
+
+        try {
+            view.render();
+        } catch (error) {
+            localStorage.clear();
+            console.log(error);
+            console.log('REFRESH');
+        }
+    },
+
+    checkInputsOnAddItemForm: () =>{
+        //Validation should happen here
+        const title = this.financeRecordTitle.value;
+        const desc = this.financeRecordDescription.value;
+        const items = this.itemsList;
+        const amt = this.financeTotalAmt.value;
+        const recDate = this.financeRecordDate.value;
+
+        //Confirm that all are not equal to false or empty
+        if (title.trim() != "" && desc.trim() != "" &&  items.length != 0 &&  amt.trim() != "" &&  recDate.trim() != "") {
+            console.log('Do we have space = no');
+            return true;
+        }
+        console.log('Do we have space = yes');
+        return false;
+    },
+
+    clearInputsOnAddItemForm: () =>{
+        this.financeRecordTitle.value = '';
+        this.financeRecordDescription.value = '';
+        this.financeTotalAmt.value = '';
+        this.financeRecordDate.value = '';
+        $('button.remove-item').parent('div.item').remove();
+        $('div.first-item').find('input').val('');
+    },
+
+    hideSection: () =>{
+        $('section').hide();
+    },
+
+    render: ()=>{
+        if (sectFinHistory && model.finances.length != 0) {
+            sectFinHistory.innerHTML=''; //This is shit sha. So much messing with DOM. DAMN DEAD_FvCKIN_LINE
+            const art = document.createElement('article');
+
+            const heading = document.createElement('h1');
+            heading.innerHTML = "List of Finance Record";
+            art.append(heading);
+
+            const div = document.createElement('div');
+            div.classList.add('list-container');
+            const ul = document.createElement('ul');
+            ul.classList.add('finance-rec-list');
+
+            const finRec = model.finances.sort((a,b)=>
+                new Date(b.dataStamp) - new Date(a.dataStamp)
+            );
+
+            let frag = document.createDocumentFragment();
+
+            finRec.forEach(rec=>{
+                //This helps list the record
+                console.log('rec', rec);
+                const li = document.createElement('li');
+                li.classList.add('finance-rec-list-item');
+
+                //For Title
+                const pTitle = document.createElement('p');
+                pTitle.setAttribute('data-finRec', "title");
+                pTitle.innerHTML = rec.title;
+                li.append(pTitle);
+
+                //For amount
+                const pAmount = document.createElement('p');
+                pAmount.setAttribute('data-finRec', "amount");
+                pAmount.innerHTML = '₦ ' + rec.amount;
+                li.append(pAmount);
+
+                //Make a frag of each item
+                const allItems = (arrayItems) =>{
+                    const ulItem = document.createElement('ul');
+                    const ulFrag = document.createDocumentFragment();
+
+                    arrayItems.forEach(item=>{
+                        const liItem = document.createElement('li');
+                        liItem.innerHTML = `
+                            <span class= 'hist-rec-name'>${item.itemName}</span>, 
+                            <span class= 'hist-rec-amt'>₦${item.itemAmt}</span>
+                        `
+                        ulFrag.append(liItem);
+                    });
+                    ulItem.append(ulFrag);
+                    return ulItem;
+                }
+
+                //For items
+                const pItems = document.createElement('p');
+                pItems.setAttribute('data-finRec', "items");
+                // console.log(rec.items);
+                pItems.append(allItems(rec.items));
+                li.append(pItems);
+
+                //For description
+                const pDescription = document.createElement('p');
+                pDescription.setAttribute('data-finRec', "description");
+                pDescription.innerHTML = rec.description;
+                li.append(pDescription);
+
+                //For dataStamp
+                const pDateStamp = document.createElement('p');
+                pDateStamp.setAttribute('data-finRec', "dataStamp");
+                const td = new Date(rec.dataStamp);
+                pDateStamp.innerHTML = td.toDateString();
+                li.append(pDateStamp);
+
+                frag.append(li);
+            });
+
+            ul.append(frag);
+            div.append(ul);
+            art.append(div);
+
+            sectFinHistory.append(art);
+        }
+
+        window.scrollTo(0, 0);
+    }
+}
+
+controller.init();
