@@ -50,6 +50,7 @@ $bgColor: #EFF7FE;
 $blueForeColor: #011B33;
 $faintBlue: #787A7C;
 $inputBorder:#E5E5E5;
+$sweetRed: #EB5757;
 
 *{
     padding: 0;
@@ -199,6 +200,95 @@ body{
             flex-wrap: wrap;
         }
 
+        div.item {
+            width: 100%;
+            max-width: 100%;
+            display: grid;
+            grid-template-columns:  40% 40% auto;
+            grid-gap: 10px;
+            padding-left: 5px;
+            // transition: ease-in-out 0.3s;
+
+            label[for ="finance-record-items"] {
+                grid-column: 1/2;
+            }
+
+            label[for ="finance-record-amt"] {
+                grid-column: 2/3;
+            }
+
+            button{
+                @mixin btn($bg, $br, $col) {
+                    background: $bg;
+                    border: 1px solid $br;
+                    color: $col;
+                }
+
+                &.remove-item{
+                    $btnBg: #fff;
+                    $brCol: $sweetRed;
+                    $btnColor: $sweetRed;
+                    @include btn($btnBg, $brCol, $btnColor);
+                    width: 30px;
+                    height: 30px;
+                    margin: 40px auto auto;
+
+                    &:hover{
+                        //Swap!
+                        background: $brCol;
+                        color: $btnBg;
+                        //I created this animation to make it fill like the button went down on hover
+                        transform: translateY(3px);
+                        font-weight: bold;
+                        box-shadow: none;
+                    }  
+                }
+
+                &.add-item{
+                    $btnBg: $blueForeColor;
+                    $brCol: $blueForeColor;
+                    $btnColor: #fff;
+                    @include btn($btnBg, $brCol, $btnColor);
+                    width: 45px;
+                    height: 45px;
+                    margin: 30px auto auto;
+
+                    &:hover{
+                        //Swap!
+                        background: rgba($btnBg, 0.05);
+                        color: $btnBg;
+                        //I created this animation to make it fill like the button went down on hover
+                        transform: translateY(3px);
+                        font-weight: bold;
+                        box-shadow: none;
+                    }  
+                }
+
+                &.remove-item, &.add-item{
+                    /* padding: 10px; */
+                    border-radius: 100%;
+                    grid-column: 3/4;
+                    text-align: center;
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    transition: box-shadow 0.3s;
+                    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+                }
+            }
+        }
+        
+        fieldset#item-list {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px;
+            border: 1px solid rgba($blueForeColor, 0.5);
+        }
+
+        label, fieldset#item-list {
+            width: 100%;
+            max-width: 100%;
+            margin: 5px auto;
+        }
 
         input, textarea{
             width: calc(100% - 20px);
@@ -493,9 +583,22 @@ body{
 
                             [data-finrec="items"]{
                                 grid-row: 4/5;
+                                padding: 10px;
+
+                                ul{
+                                    padding-left: 10px;
+
+                                    li{
+                                        span.hist-rec-amt {
+                                            font-weight: bold;
+                                            color: rgba($sweetRed, 0.75);
+                                        } 
+                                    }
+                                }
                             }
 
                             [data-finrec="description"]{
+                                font-style: italic;
                                 grid-row: 3/4;
                                 color: rgba($color: #000000, $alpha: 0.7);
                                 font-size: 13px;
@@ -1025,6 +1128,7 @@ body{
 
     @media screen and (min-width: 1152px) {
         padding: 30px 100px;
-        
+        width: calc(100vw - 200px);
+        max-width: calc(100vw - 200px);
     }
 }
