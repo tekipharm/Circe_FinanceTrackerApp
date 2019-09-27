@@ -1,3 +1,11 @@
+//Each item record of finance app
+class Items{
+    constructor(itemName, itemAmt){
+        this.itemName = itemName;
+        this.itemAmt = itemAmt;
+    }
+}
+
 // Class to define each finance data object
 
 class Finances{
@@ -171,8 +179,8 @@ const view = {
         //For Dashboard Add form
         this.financeRecordTitle = document.getElementById('finance-record-title');
         this.financeRecordDescription = document.getElementById('finance-record-description');
-        this.financeRecordItems = document.getElementById('finance-record-items');
-        this.financeRecordAmt = document.getElementById('finance-record-amt');
+        // this.financeRecordItems = document.getElementById('finance-record-items');
+        // this.financeRecordAmt = document.getElementById('finance-record-amt');
         this.financeRecordDate = document.getElementById('finance-record-date');
         this.sectFinHistory = document.getElementById('finance-history');
 
@@ -187,8 +195,8 @@ const view = {
                         // id, title, amount, items, description, dataStamp
                         this.id = Date.now(), //For Ever Unique
                         this.title = financeRecordTitle.value,
-                        this.amount = financeRecordAmt.value,
-                        this.items = financeRecordItems.value,
+                        // this.amount = financeRecordAmt.value,
+                        // this.items = financeRecordItems.value,
                         this.description = financeRecordDescription.value,
                         this.dataStamp = new Date(financeRecordDate.value)
                     );
@@ -212,8 +220,8 @@ const view = {
         //Validation should happen here
         const title = this.financeRecordTitle.value;
         const desc = this.financeRecordDescription.value;
-        const items = this.financeRecordItems.value;
-        const amt = this.financeRecordAmt.value;
+        // const items = this.financeRecordItems.value;
+        // const amt = this.financeRecordAmt.value;
         const recDate = this.financeRecordDate.value;
 
         //Confirm that all are not equal to false or empty
@@ -229,7 +237,7 @@ const view = {
         this.financeRecordTitle.value = '';
         this.financeRecordDescription.value = '';
         this.financeRecordItems.value = '';
-        this.financeRecordAmt.value = '';
+        // this.financeRecordAmt.value = '';
         this.financeRecordDate.value = '';
     },
 
