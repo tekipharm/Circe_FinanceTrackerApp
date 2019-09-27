@@ -303,7 +303,13 @@ const view = {
             })
         }
 
-        view.render();
+        try {
+            view.render();
+        } catch (error) {
+            localStorage.clear();
+            console.log(error);
+            console.log('REFRESH');
+        }
     },
 
     checkInputsOnAddItemForm: () =>{
