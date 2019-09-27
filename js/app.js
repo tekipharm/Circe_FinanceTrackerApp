@@ -340,6 +340,7 @@ const view = {
 
     render: ()=>{
         if (sectFinHistory && model.finances.length != 0) {
+            sectFinHistory.innerHTML=''; //This is shit sha. So much messing with DOM. DAMN DEAD_FvCKIN_LINE
             const art = document.createElement('article');
 
             const heading = document.createElement('h1');
