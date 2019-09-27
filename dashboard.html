@@ -40,7 +40,7 @@
             </button>
           </li>
           <li class="show-finance-histoory-container container">
-              <button id="show-finance-histoory">
+              <button id="show-finance-history">
                 <img src="./images/history-clock-button.png" alt="icon for add item button" class="add-Item-img" title="Add item symbol">
                 <p>History</p>
               </button>
@@ -71,13 +71,25 @@
               Description:
               <input type="text" name="description" id="finance-record-description" placeholder="e.g I had an emergency buy" required>
             </label>
-            <label for="finance-record-items">
-              Items:
-              <textarea name="item" id="finance-record-items" placeholder="e.g Carrot, 6 pack of Indomie, Pink Gown" cols="30" rows="10" required></textarea>
-            </label>
-            <label for="finance-record-amt">
-              amount in Naira (₦):
-              <input type="number" name="amount" id="finance-record-amt" placeholder="6000" min="0" required>
+            <!-- List of items purchased -->
+            <fieldset id="item-list">
+              <legend>List of Item(s)</legend>
+              <div class="item first-item">
+                <label for="finance-record-items">
+                  Items:
+                  <input class="itemName" type="text" name="item" class="finance-record-items" placeholder="e.g Carrot" required>
+                </label>
+                <label for="finance-record-amt">
+                  Amount(₦):
+                  <input class="itemAmt" type="number" name="amount" id="finance-record-amt" placeholder="6000" min="0" required>
+                </label>
+                <button class="add-item" title="Add another item.">+</button>
+              </div>
+            </fieldset>
+            
+            <label for="finance-record-total-amt">
+              Total Amount(₦) - auto:
+              <input type="number" name="amount" id="finance-record-total-amt" min="0" readonly>
             </label>
             <label for="finance-record-date">
               Date of transaction:
@@ -96,6 +108,7 @@
         </ul>
       </nav>
     </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="./js/app.js"></script>
   </body>
 </html>
