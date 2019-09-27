@@ -215,11 +215,11 @@ const view = {
         const createNewItem = () => {
             const newHTML = `
                 <div class="item">
-                    <label for="finance-record-items">
+                    <label>
                         Items:
                         <input class="itemName" type="text" name="item" class="finance-record-items" placeholder="e.g Carrot" required>
                     </label>
-                    <label for="finance-record-amt">
+                    <label>
                         Amount(₦):
                         <input class="itemAmt" type="number" name="amount" id="finance-record-amt" placeholder="6000" min="0" required>
                     </label>
@@ -279,9 +279,8 @@ const view = {
             inputItemChange();
         }
 
-        if(top.document.location.pathname == "/dashboard.html"){
-            startAppDashboard();
-        }
+        //Call all the above
+        startAppDashboard();
       
         //For Dashboard Add form
         this.financeRecordTitle = document.getElementById('finance-record-title');

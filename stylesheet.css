@@ -1160,8 +1160,8 @@ body#dashboard footer nav ul li a {
 @media screen and (min-width: 1152px) {
   body {
     padding: 30px 100px;
-    width: calc(100vw - 200px);
-    max-width: calc(100vw - 200px);
+    width: calc(100% - 200px);
+    max-width: calc(100% - 200px);
   }
 }
 /*# sourceMappingURL=stylesheet.css.map */
