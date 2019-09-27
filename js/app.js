@@ -260,6 +260,22 @@ const view = {
                 createNewItem();
             });
 
+            //Ugly
+            $('button#add-item').click(function (evt) {
+                evt.preventDefault();
+                view.hideSection();
+                $('section#add-items-sect').show();
+                $('li.container').removeClass('selected');
+                window.scrollTo(0, 0);
+            });
+
+            $('button#show-finance-history').click(function (evt) {
+                evt.preventDefault();
+                view.hideSection();
+                $('section#finance-history').show();
+                window.scrollTo(0, 0);
+            });
+
             inputItemChange();
         }
 
@@ -338,6 +354,10 @@ const view = {
         $('div.first-item').find('input').val('');
     },
 
+    hideSection: () =>{
+        $('section').hide();
+    },
+
     render: ()=>{
         if (sectFinHistory && model.finances.length != 0) {
             sectFinHistory.innerHTML=''; //This is shit sha. So much messing with DOM. DAMN DEAD_FvCKIN_LINE
@@ -396,7 +416,7 @@ const view = {
                 //For items
                 const pItems = document.createElement('p');
                 pItems.setAttribute('data-finRec', "items");
-                console.log(rec.items);
+                // console.log(rec.items);
                 pItems.append(allItems(rec.items));
                 li.append(pItems);
 
