@@ -442,6 +442,8 @@ const view = {
 
             sectFinHistory.append(art);
         }
+
+        window.scrollTo(0, 0);
     }
 }
 
