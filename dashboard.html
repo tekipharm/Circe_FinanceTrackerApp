@@ -71,13 +71,25 @@
               Description:
               <input type="text" name="description" id="finance-record-description" placeholder="e.g I had an emergency buy" required>
             </label>
-            <label for="finance-record-items">
-              Items:
-              <textarea name="item" id="finance-record-items" placeholder="e.g Carrot, 6 pack of Indomie, Pink Gown" cols="30" rows="10" required></textarea>
-            </label>
-            <label for="finance-record-amt">
-              amount in Naira (₦):
-              <input type="number" name="amount" id="finance-record-amt" placeholder="6000" min="0" required>
+            <!-- List of items purchased -->
+            <fieldset id="item-list">
+              <legend>List of Item(s)</legend>
+              <div class="item first-item">
+                <label for="finance-record-items">
+                  Items:
+                  <input class="itemName" type="text" name="item" class="finance-record-items" placeholder="e.g Carrot" required>
+                </label>
+                <label for="finance-record-amt">
+                  Amount(₦):
+                  <input class="itemAmt" type="number" name="amount" id="finance-record-amt" placeholder="6000" min="0" required>
+                </label>
+                <button class="add-item" title="Add another item.">+</button>
+              </div>
+            </fieldset>
+            
+            <label for="finance-record-total-amt">
+              Total Amount(₦):
+              <input type="number" name="amount" id="finance-record-total-amt" min="0" readonly>
             </label>
             <label for="finance-record-date">
               Date of transaction:
@@ -96,6 +108,99 @@
         </ul>
       </nav>
     </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="./js/app.js"></script>
+    <script>
+      let items = [];
+
+      //get item amounts
+      const getItemAmts = () =>{
+        // return $("fieldset#item-list").serializeArray();
+        items = [];
+        let totalAmt = 0;
+
+        $("#item-list").children('div.item').each(function() {
+          const itemName = $(this).find('input[name="item"]')[0].value;
+          const itemAmt = $(this).find('input[name="amount"]')[0].value;
+          // console.log(this + '- children', itemName);
+          // console.log(this + '- children2', itemAmt);
+          const itemObj = new Items(itemName, itemAmt);
+          // console.log('itemObj', itemObj);
+
+          items.push(itemObj);
+        });
+
+        items.forEach(item=>{
+          totalAmt +=  +item.itemAmt; //plus converts it to number
+        });
+
+        $('#finance-record-total-amt')[0].value = totalAmt;
+        // console.log(totalAmt);
+      }
+
+      const inputItemChange = () =>{
+        //Listen to input item change
+        $('input[name="amount"].itemAmt').keyup(getItemAmts);
+
+        //This handles auto suggested values.
+        $('input[name="amount"].itemAmt').change(getItemAmts);
+      };
+
+      //Create new Item
+      const createNewItem = () => {
+        const newHTML = `<div class="item">
+                <label for="finance-record-items">
+                  Items:
+                  <input class="itemName" type="text" name="item" class="finance-record-items" placeholder="e.g Carrot" required>
+                </label>
+                <label for="finance-record-amt">
+                  Amount(₦):
+                  <input class="itemAmt" type="number" name="amount" id="finance-record-amt" placeholder="6000" min="0" required>
+                </label>
+                <button class="remove-item" title="Remove this item">x</button>
+              </div>`;
+        $(newHTML).insertAfter('div.item.first-item');
+            
+        $('button.remove-item').hover(function () {
+            // evt.preventDefault();
+            // console.log('kkk');
+            $(this).parent('div.item').css('box-shadow', '0px 4px 4px rgba(0, 0, 0, 0.5)')
+        },
+        function () {
+            // evt.preventDefault();
+            // console.log($(this).parent('div.item'));
+            $(this).parent('div.item').attr('style', 'box-shadow :none)')
+        });
+
+        //Remove item
+        $('button.remove-item').click(function (evt) {
+            evt.preventDefault();
+            // console.log('kkk');
+            $(this).parent('div.item').slideUp(function () {
+              $(this).remove();
+              getItemAmts();
+            });
+        });
+
+        //Listen to input item change
+        inputItemChange();
+      }
+
+      const startAppDashboard = () =>{
+        //Help us add more items
+        $('button.add-item').click(function (evt) {
+            evt.preventDefault();
+            // console.log('kkk');
+            createNewItem();
+        });
+
+        inputItemChange();
+      }
+
+      if(top.document.location.pathname == "/dashboard.html"){
+        startAppDashboard();
+      }
+      
+    </script>
   </body>
 </html>
