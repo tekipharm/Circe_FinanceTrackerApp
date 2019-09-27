@@ -516,6 +516,56 @@ body main section.about-sect article.about-last-row div p {
   text-align: center;
 }
 
+body main section.faq-sect h1, body main section.faq-sect h2 {
+  color: #000000;
+}
+
+body main section.faq-sect h1 {
+  font-family: 'Gilroy-Regular', sans-serif;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 45px;
+  line-height: 55px;
+  text-align: center;
+}
+
+body main section.faq-sect article {
+  margin: 10px auto;
+  width: 90%;
+}
+
+body main section.faq-sect article div.faq-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 20px auto;
+  padding: 5px;
+}
+
+body main section.faq-sect article div.faq-item, body main section.faq-sect article div.faq-item h2, body main section.faq-sect article div.faq-item p {
+  width: 100%;
+  max-width: 100%;
+}
+
+body main section.faq-sect article div.faq-item h2.faq-title {
+  font-family: 'Gilroy-Bold', sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 27px;
+  line-height: 33px;
+  text-align: center;
+}
+
+body main section.faq-sect article div.faq-item p.faq-text {
+  font-family: 'Gilroy-Bold', sans-serif;
+  font-weight: 150;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: justify;
+}
+
 body#dashboard {
   padding: 0;
   margin: 0;
@@ -854,6 +904,16 @@ body#dashboard footer nav ul li a {
     font-style: normal;
     font-weight: bold;
     color: #011B33;
+  }
+  body main section.faq-sect article {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: auto auto;
+        grid-template-columns: auto auto;
+    grid-gap: 30px;
+  }
+  body main section.faq-sect article div.faq-item h2.faq-title {
+    text-align: left;
   }
   body form {
     width: 430px;

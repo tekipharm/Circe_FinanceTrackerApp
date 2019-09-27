@@ -520,6 +520,55 @@ body{
                     }
                 }
             }
+
+            section.faq-sect{
+                h1, h2{
+                    color: #000000;
+                }
+
+                h1{
+                    font-family: 'Gilroy-Regular', sans-serif;
+                    font-style: normal;
+                    font-weight: 800;
+                    font-size: 45px;
+                    line-height: 55px;
+                    text-align: center;
+                }
+
+                article{
+                    margin: 10px auto;
+                    width: 90%;
+
+                    div.faq-item{
+                        display: flex;
+                        flex-wrap: wrap;
+                        margin: 20px auto;
+                        padding: 5px;
+
+                        &,h2, p{
+                            width: 100%;
+                            max-width: 100%;
+                        }
+
+                        h2.faq-title{
+                            font-family: 'Gilroy-Bold', sans-serif;
+                            font-style: normal;
+                            font-weight: 300;
+                            font-size: 27px;
+                            line-height: 33px;
+                            text-align: center;
+                        }
+
+                        p.faq-text{
+                            font-family: 'Gilroy-Bold', sans-serif;
+                            font-weight: 150;
+                            font-size: 20px;
+                            line-height: 23px;
+                            text-align: justify;
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -850,6 +899,19 @@ body{
                         font-style: normal;
                         font-weight: bold;
                         color: $blueForeColor;
+                    }
+                }
+            }
+
+            section.faq-sect{
+                article{
+                    display: grid;
+                    grid-template-columns: auto auto;
+                    grid-gap: 30px; 
+                    div.faq-item{
+                        h2.faq-title{
+                            text-align: left;
+                        } 
                     }
                 }
             }
