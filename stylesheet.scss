@@ -1138,7 +1138,7 @@ body{
 
     @media screen and (min-width: 1152px) {
         padding: 30px 100px;
-        width: calc(100vw - 200px);
-        max-width: calc(100vw - 200px);
+        width: calc(100% - 200px);
+        max-width: calc(100% - 200px);
     }
 }
