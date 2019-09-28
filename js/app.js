@@ -339,7 +339,8 @@ const view = {
 
         this.histOffFinance = [];
 
-        model.finances.forEach(f=> histOffFinance.push(makehistoFinances(f)));
+        const modelArr = controller.getFinanceData();
+        modelArr.forEach(f=> histOffFinance.push(makehistoFinances(f)));
 
         // console.log('kk', this.histOffFinance);
 
@@ -510,7 +511,8 @@ const view = {
                         controller.addNewFinanceData(finData);
                         alert('Data successful Added');
                         view.clearInputsOnAddItemForm();
-                        view.render();
+                        // view.render();
+                        document.location.reload();
                     }
                     else{
                         alert('Could not process, Some fields are empty');
@@ -714,7 +716,8 @@ const view = {
 
     render: ()=>{
 
-        if (sectFinHistoryList && model.finances.length != 0) {
+        const modelArr = controller.getFinanceData();
+        if (sectFinHistoryList && modelArr.length != 0) {
             view.populateSection();
         }
 
