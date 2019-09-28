@@ -348,14 +348,17 @@ const view = {
             const wk = new Set();
             histOffFinance.map(t => wk.add(t.week));
             const wkArr = Array.from(wk);
-        
+            let sumOfItems = 0;
             let yy = [];
             wkArr.forEach(wk=>{
                 const alpha = wk;
                 
                 let ee = histOffFinance.filter(t => t.week == alpha);
                 let ff = ee.map(e=>e.finObj);
-                yy.push(new Object({alpha: alpha, val : ff}));
+                ff.forEach(element => {
+                    sumOfItems += +element.amount; //Turn the string to number
+                });
+                yy.push(new Object({alpha: alpha, val : ff, totalAmtSpent: sumOfItems}));
                 //console.log(yy);
             });
         
@@ -366,14 +369,18 @@ const view = {
             const mon = new Set();
             histOffFinance.map(t => mon.add(t.month));
             const monArr = Array.from(mon);
-        
+            let sumOfItems = 0;
+
             let yy = [];
             monArr.forEach(mon=>{
                 const alpha = mon;
                 
                 let ee = histOffFinance.filter(t => t.month == alpha);
                 let ff = ee.map(e=>e.finObj);
-                yy.push(new Object({alpha: alpha, val : ff}));
+                ff.forEach(element => {
+                    sumOfItems += +element.amount; //Turn the string to number
+                });
+                yy.push(new Object({alpha: alpha, val : ff, totalAmtSpent: sumOfItems}));
                 //console.log(yy);
             });
         
@@ -384,14 +391,18 @@ const view = {
             const yr = new Set();
             histOffFinance.map(t => yr.add(t.year));
             const yrArr = Array.from(yr);
-        
+            let sumOfItems = 0;
+
             let yy = [];
             yrArr.forEach(yr=>{
                 const alpha = yr;
                 
                 let ee = histOffFinance.filter(t => t.year == alpha);
                 let ff = ee.map(e=>e.finObj);
-                yy.push(new Object({alpha: alpha, val : ff}));
+                ff.forEach(element => {
+                    sumOfItems += +element.amount; //Turn the string to number
+                });
+                yy.push(new Object({alpha: alpha, val : ff, totalAmtSpent: sumOfItems}));
                 //console.log(yy);
             });
         
@@ -423,7 +434,7 @@ const view = {
         const getWrt = (arrHistFinObj, keyword) =>{
             removeSel();
             console.log('arrHistFinObj', arrHistFinObj);
-            console.log('keyword', keyword);
+            // console.log('keyword', keyword);
             const articleParent = document.createElement('div');
             const h2 = document.createElement('h2');
             h2.innerHTML = `${keyword} view`;
@@ -435,7 +446,7 @@ const view = {
                 console.log('item',item);
                 const articleChild = document.createElement('div');
                 const h3 = document.createElement('h3');
-                h3.innerHTML =  `${keyword} ${item.alpha}`;
+                h3.innerHTML =  `${keyword} ${item.alpha} = ₦ ${item.totalAmtSpent}`;
                 h3.classList.add('view-no');
 
                 // let frag = document.createDocumentFragment();
@@ -507,7 +518,7 @@ const view = {
                             this.dataStamp = new Date(financeRecordDate.value)
                         );
 
-                        console.log(finData);
+                        // console.log(finData);
                         controller.addNewFinanceData(finData);
                         alert('Data successful Added');
                         view.clearInputsOnAddItemForm();
@@ -591,10 +602,10 @@ const view = {
 
         //Confirm that all are not equal to false or empty
         if (title.trim() != "" && desc.trim() != "" &&  items.length != 0 &&  amt.trim() != "" &&  recDate.trim() != "") {
-            console.log('Do we have space = no');
+            // console.log('Do we have space = no');
             return true;
         }
-        console.log('Do we have space = yes');
+        // console.log('Do we have space = yes');
         return false;
     },
 
@@ -612,7 +623,7 @@ const view = {
     },
 
     sortByDate: (arr) =>{
-        console.log('arr',arr);
+        // console.log('arr',arr);
         const sortedArr = arr.sort((a,b)=>
             new Date(b.dataStamp) - new Date(a.dataStamp)
         );
@@ -633,7 +644,7 @@ const view = {
 
         finRec.forEach(rec=>{
             //This helps list the record
-            console.log('rec', rec);
+            // console.log('rec', rec);
             const li = document.createElement('li');
             li.classList.add('finance-rec-list-item');
 
@@ -710,7 +721,7 @@ const view = {
         // const art = document.createElement('div');
         const artRight = view.getRightArticle();
         // art.append(artRight);
-        console.log('rr', artRight);
+        // console.log('rr', artRight);
         sectFinHistoryList.append(artRight);
     },
 
