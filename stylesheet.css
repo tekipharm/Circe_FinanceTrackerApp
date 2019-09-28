@@ -81,6 +81,10 @@ body h1, body h2, body h3 {
   text-align: center;
 }
 
+body h2.view, body h3.view-no {
+  font-family: 'Gilroy-Regular', sans-serif;
+}
+
 body header.withNav {
   padding: 10px;
   display: -webkit-box;
@@ -180,8 +184,8 @@ body main section.login-section article h1, body main section.signup-section art
 
 body section#finance-history {
   display: none;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  -ms-grid-rows: 100px 100px auto;
+      grid-template-rows: 100px 100px auto;
 }
 
 body section#finance-history article {

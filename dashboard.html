@@ -11,6 +11,47 @@
     <meta name="theme-color" content="#787A7C">
     <link rel="icon"  href="./images/logo.png">
     <link rel="stylesheet" href="./stylesheet.css">
+    <style>
+      body section#finance-history article.viewSelectBtn-conatiner, body section#finance-history article.viewSelectBtn-conatiner div.container{
+        grid-template-rows: auto;
+      }
+
+      body section#finance-history article.viewSelectBtn-conatiner div.container{
+        width: 100%;
+        max-width: 95%;
+        margin: 10px auto;
+      }
+
+      body section#finance-history article.viewSelectBtn-conatiner div.container div.viewSelectBtn-btns {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        margin: auto;
+        -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
+                box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
+      }
+
+      body section#finance-history article.viewSelectBtn-conatiner div.container div.viewSelectBtn-btns button.viewSelectBtn {
+        width: 60px;
+        height: 45px;
+        border: 0;
+        background-color: #011B33;
+        color: #fff;
+        text-transform: uppercase;
+      }
+
+      body section#finance-history article.viewSelectBtn-conatiner div.container div.viewSelectBtn-btns button.viewSelectBtn.selected {
+        background-color: #fff;
+        color: #011B33;
+        -webkit-transition: ease-in 0.5s;
+        transition: ease-in 0.5s;
+      }
+      p#txt-select-view{
+        text-align: center;
+        text-transform: uppercase;
+        margin: auto;
+      }
+  </style>
   </head>
   <body id="dashboard">
     <!--[if IE]>
@@ -58,6 +99,19 @@
       <section id="dashboard-charts-sect">
       </section>
       <section id="finance-history">
+        <h1>List of Finance Record</h1>
+        <article class="viewSelectBtn-conatiner">
+            <div class="container">
+                <div class="viewSelectBtn-btns">
+                    <p id="txt-select-view">select  view</p>
+                    <button id="view-all" class="viewSelectBtn All" title = "View All">all</button>
+                    <button id="view-week" class="viewSelectBtn week spanish" title = "View Week">week</button>
+                    <button id="view-month" class="viewSelectBtn month" title = "View Month">month</button>
+                    <button id="view-year" class="viewSelectBtn year" title = "View Year">year</button>
+                </div>
+            </div>
+        </article>
+        <article id="finance-history-List"></article>
       </section>
       <section id="add-items-sect">
         <article>
