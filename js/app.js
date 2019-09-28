@@ -6,8 +6,17 @@ class Items{
     }
 }
 
-// Class to define each finance data object
+//Arrannging finance History
+class HistoFinances{
+    constructor(finObj, week, month, year){
+        this.finObj = finObj;
+        this.week = week;
+        this.month = month;
+        this.year = year;
+    }
+}
 
+// Class to define each finance data object
 class Finances{
     constructor(title, amount, items, description, dataStamp){
         this.title = title;
@@ -173,8 +182,13 @@ const controller = {
     }
 }
 
+let rightArticle;
+
 const view = {
+    
     init: ()=>{
+
+        //Add Section
 
         this.itemsList = [];
 
@@ -251,8 +265,261 @@ const view = {
             //Listen to input item change
             inputItemChange();
         }
+      
+        //For Dashboard Add form
+        this.financeRecordTitle = document.getElementById('finance-record-title');
+        this.financeRecordDescription = document.getElementById('finance-record-description');
+        this.financeTotalAmt = document.getElementById('finance-record-total-amt');
+        this.financeRecordDate = document.getElementById('finance-record-date');
+        this.sectFinHistory = document.getElementById('finance-history');
+        this.sectFinHistoryList = document.getElementById('finance-history-List');
 
+        const btnAddFinancRec = document.getElementById('submit-finance-record');
+
+        //History Section
+        const calcMonth = (dataStamp) => {
+            let  finMonth = '';
+            const monthIndex = new Date(dataStamp).getMonth();
+            const monthIndexValue ={
+                'January': 1,
+                'February': 2,
+                'March': 3,
+                'April': 4,
+                'May': 5,
+                'June': 6,
+                'July': 7,
+                'August': 8,
+                'September': 9,
+                'October': 10,
+                'November': 11,
+                'December': 12
+            }
+        
+            for (let key in monthIndexValue) {
+                if (monthIndex == monthIndexValue[key]) {
+                    finMonth = key;
+                }
+            }
+        
+            return finMonth;
+        }
+        
+        const calcWeekNo = (dataStamp) =>{
+            let dt = dataStamp;
+            var tdt = new Date(dt.valueOf());
+            var dayn = (dt.getDay() + 6) % 7;
+            tdt.setDate(tdt.getDate() - dayn + 3);
+            var firstThursday = tdt.valueOf();
+            tdt.setMonth(0, 1);
+            if (tdt.getDay() !== 4) {
+                tdt.setMonth(0, 1 + ((4 - tdt.getDay()) + 7) % 7);
+            }
+            //604800000 is 1 week in milliseconds
+            return 1 + Math.ceil((firstThursday - tdt) / 604800000);
+        }
+        
+        const calcYear = (dataStamp) =>{
+            return dataStamp.getFullYear();
+        }
+        
+        const makehistoFinances = (finance) =>{
+            const dataWeekNo = calcWeekNo(finance.dataStamp);
+            const dataMonth = calcMonth(finance.dataStamp);
+            const dataYear = calcYear(finance.dataStamp);
+        
+            const hisObj = new HistoFinances(
+                this.finObj = finance,
+                this.week = dataWeekNo,
+                this.month = dataMonth,
+                this.year = dataYear
+            );
+        
+            return hisObj;
+        }
+
+        this.histOffFinance = [];
+
+        const modelArr = controller.getFinanceData();
+        modelArr.forEach(f=> histOffFinance.push(makehistoFinances(f)));
+
+        // console.log('kk', this.histOffFinance);
+
+        const convertDataToWeek = () =>{
+            const wk = new Set();
+            histOffFinance.map(t => wk.add(t.week));
+            const wkArr = Array.from(wk);
+        
+            let yy = [];
+            wkArr.forEach(wk=>{
+                const alpha = wk;
+                
+                let ee = histOffFinance.filter(t => t.week == alpha);
+                let ff = ee.map(e=>e.finObj);
+                yy.push(new Object({alpha: alpha, val : ff}));
+                //console.log(yy);
+            });
+        
+            return yy;
+        }
+        
+        const convertDataToMonth = () =>{
+            const mon = new Set();
+            histOffFinance.map(t => mon.add(t.month));
+            const monArr = Array.from(mon);
+        
+            let yy = [];
+            monArr.forEach(mon=>{
+                const alpha = mon;
+                
+                let ee = histOffFinance.filter(t => t.month == alpha);
+                let ff = ee.map(e=>e.finObj);
+                yy.push(new Object({alpha: alpha, val : ff}));
+                //console.log(yy);
+            });
+        
+            return yy;
+        }
+        
+        const convertDataToYear = () =>{
+            const yr = new Set();
+            histOffFinance.map(t => yr.add(t.year));
+            const yrArr = Array.from(yr);
+        
+            let yy = [];
+            yrArr.forEach(yr=>{
+                const alpha = yr;
+                
+                let ee = histOffFinance.filter(t => t.year == alpha);
+                let ff = ee.map(e=>e.finObj);
+                yy.push(new Object({alpha: alpha, val : ff}));
+                //console.log(yy);
+            });
+        
+            return yy;
+        }
+
+        // console.log(convertDataToWeek(),
+        // convertDataToMonth(),
+        // convertDataToYear());
+
+                //remove class from these buttons
+        const removeSel =() =>{
+            $('button.viewSelectBtn').removeClass('selected');
+        }
+        
+        //Break finance record into History
+        const getForAll = () =>{
+            removeSel();
+            $('button#view-all').addClass('selected');
+
+            const data = model.finances;
+            // console.log(data);
+            const artValue = view.makeArticle(data);
+            view.setRightArticle(artValue);
+            view.render();
+        }
+        
+        //For week, month and year
+        const getWrt = (arrHistFinObj, keyword) =>{
+            removeSel();
+            console.log('arrHistFinObj', arrHistFinObj);
+            console.log('keyword', keyword);
+            const articleParent = document.createElement('div');
+            const h2 = document.createElement('h2');
+            h2.innerHTML = `${keyword} view`;
+            h2.classList.add('view');
+
+            let fragParent = document.createDocumentFragment();
+
+            arrHistFinObj.forEach(item=>{
+                console.log('item',item);
+                const articleChild = document.createElement('div');
+                const h3 = document.createElement('h3');
+                h3.innerHTML =  `${keyword} ${item.alpha}`;
+                h3.classList.add('view-no');
+
+                // let frag = document.createDocumentFragment();
+                // item.val.forEach(element => {
+                const articleReturned = view.makeArticle(item.val);
+                // frag.append(articleReturned);
+                // });
+
+                //Appending
+                articleChild.append(h3);
+                articleChild.append(articleReturned);
+
+                fragParent.append(articleChild);
+            });
+
+            articleParent.append(h2);
+            articleParent.append(fragParent);
+
+            return articleParent;
+        }
+
+        const getForWeek = () =>{            
+            const data = convertDataToWeek();
+            // console.log(data);
+
+            const artValue = getWrt(data, 'Week');
+            $('button#view-week').addClass('selected');
+
+            view.setRightArticle(artValue);
+            view.render();
+        }
+
+        const getForMonth = () =>{            
+            const data = convertDataToMonth();
+            // console.log(data);
+
+            const artValue = getWrt(data, 'Month');
+            $('button#view-month').addClass('selected');
+            
+            view.setRightArticle(artValue);
+            view.render();
+        }
+
+        const getForYear = () =>{            
+            const data = convertDataToYear();
+            // console.log(data);
+
+            const artValue = getWrt(data, 'Year');
+            $('button#view-year').addClass('selected');
+            
+            view.setRightArticle(artValue);
+            view.render();
+        }
+
+        //Event Listeners
         const startAppDashboard = () =>{
+            
+            if(btnAddFinancRec){
+                btnAddFinancRec.addEventListener('click', function() {
+                    event.preventDefault();
+                    const status = view.checkInputsOnAddItemForm();
+                    if (status == true) {
+                        const finData = new Finances(
+                            //title, amount, items, description, dataStamp
+                            this.title = financeRecordTitle.value,
+                            this.amount = financeTotalAmt.value,
+                            this.items = itemsList,
+                            this.description = financeRecordDescription.value,
+                            this.dataStamp = new Date(financeRecordDate.value)
+                        );
+
+                        console.log(finData);
+                        controller.addNewFinanceData(finData);
+                        alert('Data successful Added');
+                        view.clearInputsOnAddItemForm();
+                        // view.render();
+                        document.location.reload();
+                    }
+                    else{
+                        alert('Could not process, Some fields are empty');
+                    }
+                })
+            }
+
             //Help us add more items
             $('button.add-item').click(function (evt) {
                 evt.preventDefault();
@@ -273,7 +540,29 @@ const view = {
                 evt.preventDefault();
                 view.hideSection();
                 $('section#finance-history').show();
+                $('section#finance-history').attr('style', 'display:grid');
                 window.scrollTo(0, 0);
+            });
+
+            //For View Changes
+            $('button#view-all').click(function(evt){
+                evt.preventDefault();
+                getForAll();
+            });
+
+            $('button#view-week').click(function(evt){
+                evt.preventDefault();
+                getForWeek();
+            });
+
+            $('button#view-month').click(function(evt){
+                evt.preventDefault();
+                getForMonth();
+            });
+
+            $('button#view-year').click(function(evt){
+                evt.preventDefault();
+                getForYear();
             });
 
             inputItemChange();
@@ -281,49 +570,14 @@ const view = {
 
         //Call all the above
         startAppDashboard();
-      
-        //For Dashboard Add form
-        this.financeRecordTitle = document.getElementById('finance-record-title');
-        this.financeRecordDescription = document.getElementById('finance-record-description');
-        this.financeTotalAmt = document.getElementById('finance-record-total-amt');
-        this.financeRecordDate = document.getElementById('finance-record-date');
-        this.sectFinHistory = document.getElementById('finance-history');
-
-        const btnAddFinancRec = document.getElementById('submit-finance-record');
-        
-
-        if(btnAddFinancRec){
-            btnAddFinancRec.addEventListener('click', function() {
-                event.preventDefault();
-                const status = view.checkInputsOnAddItemForm();
-                if (status == true) {
-                    const finData = new Finances(
-                        //title, amount, items, description, dataStamp
-                        this.title = financeRecordTitle.value,
-                        this.amount = financeTotalAmt.value,
-                        this.items = itemsList,
-                        this.description = financeRecordDescription.value,
-                        this.dataStamp = new Date(financeRecordDate.value)
-                    );
-
-                    console.log(finData);
-                    controller.addNewFinanceData(finData);
-                    alert('Data successful Added');
-                    view.clearInputsOnAddItemForm();
-                    view.render();
-                }
-                else{
-                    alert('Could not process, Some fields are empty');
-                }
-            })
-        }
 
         try {
-            view.render();
+            // view.render();
+            getForAll();
         } catch (error) {
-            localStorage.clear();
+            // localStorage.clear();
             console.log(error);
-            console.log('REFRESH');
+            // console.log('REFRESH');
         }
     },
 
@@ -357,92 +611,117 @@ const view = {
         $('section').hide();
     },
 
+    sortByDate: (arr) =>{
+        console.log('arr',arr);
+        const sortedArr = arr.sort((a,b)=>
+            new Date(b.dataStamp) - new Date(a.dataStamp)
+        );
+        return sortedArr;
+    },
+
+    makeArticle: (arrFinRec) =>{
+        //-----
+        const article = document.createElement('div');
+        const div = document.createElement('div');
+        div.classList.add('list-container');
+        const ul = document.createElement('ul');
+        ul.classList.add('finance-rec-list');
+
+        let frag = document.createDocumentFragment();
+
+        const finRec = view.sortByDate(arrFinRec);
+
+        finRec.forEach(rec=>{
+            //This helps list the record
+            console.log('rec', rec);
+            const li = document.createElement('li');
+            li.classList.add('finance-rec-list-item');
+
+            //For Title
+            const pTitle = document.createElement('p');
+            pTitle.setAttribute('data-finRec', "title");
+            pTitle.innerHTML = rec.title;
+            li.append(pTitle);
+
+            //For amount
+            const pAmount = document.createElement('p');
+            pAmount.setAttribute('data-finRec', "amount");
+            pAmount.innerHTML = '₦ ' + rec.amount;
+            li.append(pAmount);
+
+            //Make a frag of each item
+            const allItems = (arrayItems) =>{
+                const ulItem = document.createElement('ul');
+                const ulFrag = document.createDocumentFragment();
+
+                arrayItems.forEach(item=>{
+                    const liItem = document.createElement('li');
+                    liItem.innerHTML = `
+                        <span class= 'hist-rec-name'>${item.itemName}</span>, 
+                        <span class= 'hist-rec-amt'>₦${item.itemAmt}</span>
+                    `
+                    ulFrag.append(liItem);
+                });
+                ulItem.append(ulFrag);
+                return ulItem;
+            }
+
+            //For items
+            const pItems = document.createElement('p');
+            pItems.setAttribute('data-finRec', "items");
+            // console.log(rec.items);
+            pItems.append(allItems(rec.items));
+            li.append(pItems);
+
+            //For description
+            const pDescription = document.createElement('p');
+            pDescription.setAttribute('data-finRec', "description");
+            pDescription.innerHTML = rec.description;
+            li.append(pDescription);
+
+            //For dataStamp
+            const pDateStamp = document.createElement('p');
+            pDateStamp.setAttribute('data-finRec', "dataStamp");
+            const td = new Date(rec.dataStamp);
+            pDateStamp.innerHTML = td.toDateString();
+            li.append(pDateStamp);
+
+            frag.append(li);
+        });
+
+        ul.append(frag);
+        div.append(ul);
+        article.append(div);
+        ///------------
+
+        return article;
+    },
+
+    setRightArticle: (val) =>{
+        rightArticle = val;
+    },
+
+    getRightArticle: () =>{
+        return rightArticle;
+    },
+
+    populateSection: () =>{
+        sectFinHistoryList.innerHTML=''; //This is shit sha. So much messing with DOM. DAMN DEAD_FvCKIN_LINE
+        // const art = document.createElement('div');
+        const artRight = view.getRightArticle();
+        // art.append(artRight);
+        console.log('rr', artRight);
+        sectFinHistoryList.append(artRight);
+    },
+
     render: ()=>{
-        if (sectFinHistory && model.finances.length != 0) {
-            sectFinHistory.innerHTML=''; //This is shit sha. So much messing with DOM. DAMN DEAD_FvCKIN_LINE
-            const art = document.createElement('article');
 
-            const heading = document.createElement('h1');
-            heading.innerHTML = "List of Finance Record";
-            art.append(heading);
-
-            const div = document.createElement('div');
-            div.classList.add('list-container');
-            const ul = document.createElement('ul');
-            ul.classList.add('finance-rec-list');
-
-            const finRec = model.finances.sort((a,b)=>
-                new Date(b.dataStamp) - new Date(a.dataStamp)
-            );
-
-            let frag = document.createDocumentFragment();
-
-            finRec.forEach(rec=>{
-                //This helps list the record
-                console.log('rec', rec);
-                const li = document.createElement('li');
-                li.classList.add('finance-rec-list-item');
-
-                //For Title
-                const pTitle = document.createElement('p');
-                pTitle.setAttribute('data-finRec', "title");
-                pTitle.innerHTML = rec.title;
-                li.append(pTitle);
-
-                //For amount
-                const pAmount = document.createElement('p');
-                pAmount.setAttribute('data-finRec', "amount");
-                pAmount.innerHTML = '₦ ' + rec.amount;
-                li.append(pAmount);
-
-                //Make a frag of each item
-                const allItems = (arrayItems) =>{
-                    const ulItem = document.createElement('ul');
-                    const ulFrag = document.createDocumentFragment();
-
-                    arrayItems.forEach(item=>{
-                        const liItem = document.createElement('li');
-                        liItem.innerHTML = `
-                            <span class= 'hist-rec-name'>${item.itemName}</span>, 
-                            <span class= 'hist-rec-amt'>₦${item.itemAmt}</span>
-                        `
-                        ulFrag.append(liItem);
-                    });
-                    ulItem.append(ulFrag);
-                    return ulItem;
-                }
-
-                //For items
-                const pItems = document.createElement('p');
-                pItems.setAttribute('data-finRec', "items");
-                // console.log(rec.items);
-                pItems.append(allItems(rec.items));
-                li.append(pItems);
-
-                //For description
-                const pDescription = document.createElement('p');
-                pDescription.setAttribute('data-finRec', "description");
-                pDescription.innerHTML = rec.description;
-                li.append(pDescription);
-
-                //For dataStamp
-                const pDateStamp = document.createElement('p');
-                pDateStamp.setAttribute('data-finRec', "dataStamp");
-                const td = new Date(rec.dataStamp);
-                pDateStamp.innerHTML = td.toDateString();
-                li.append(pDateStamp);
-
-                frag.append(li);
-            });
-
-            ul.append(frag);
-            div.append(ul);
-            art.append(div);
-
-            sectFinHistory.append(art);
+        const modelArr = controller.getFinanceData();
+        if (sectFinHistoryList && modelArr.length != 0) {
+            view.populateSection();
         }
 
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
     }
 }
 

@@ -78,6 +78,11 @@ body main, body header, body footer {
 
 body h1, body h2, body h3 {
   font-family: 'Gilroy-Heavy', sans-serif;
+  text-align: center;
+}
+
+body h2.view, body h3.view-no {
+  font-family: 'Gilroy-Regular', sans-serif;
 }
 
 body header.withNav {
@@ -179,8 +184,8 @@ body main section.login-section article h1, body main section.signup-section art
 
 body section#finance-history {
   display: none;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  -ms-grid-rows: 100px 100px auto;
+      grid-template-rows: 100px 100px auto;
 }
 
 body section#finance-history article {
@@ -413,6 +418,156 @@ body main section article.landing-page-decription a.btn-sign-up:hover {
 body main section article#landing-page-image img {
   max-width: 200px;
   margin: auto;
+}
+
+body main#about-main {
+  margin: 0px;
+}
+
+body main section.about-sect h1 {
+  font-size: 45px;
+  font-family: 'Gilroy-Bold', sans-serif;
+  font-weight: 400;
+}
+
+body main section.about-sect h2 {
+  font-size: 45px;
+  font-family: 'Gilroy-Medium', sans-serif;
+  font-weight: 400;
+}
+
+body main section.about-sect h1, body main section.about-sect h2 {
+  margin: 10px auto;
+}
+
+body main section.about-sect article.write-up p {
+  font-family: 'Gilroy-Regular', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 27px;
+  line-height: 32px;
+  text-align: center;
+  color: #000000;
+}
+
+body main section.about-sect article.xterstics-container {
+  padding: 50px 20px;
+  margin: 20px auto;
+}
+
+body main section.about-sect article.xterstics-container div.xterstic {
+  width: 259px;
+  height: 276px;
+  margin: 30px auto;
+  padding: 30px 20px;
+  background: #FFFFFF;
+  -webkit-box-shadow: 15px 14px 1px rgba(0, 0, 0, 0.25);
+          box-shadow: 15px 14px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 9px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+body main section.about-sect article.xterstics-container div.xterstic img, body main section.about-sect article.xterstics-container div.xterstic p {
+  margin: 10px auto;
+}
+
+body main section.about-sect article.xterstics-container div.xterstic img {
+  width: 150px;
+  height: 150px;
+}
+
+body main section.about-sect article.xterstics-container div.xterstic p {
+  font-family: 'Gilroy-Medium', sans-serif;
+  font-size: 23px;
+  line-height: 27px;
+  text-align: center;
+}
+
+body main section.about-sect article.about-last-row {
+  width: calc(100%);
+  max-width: 100%;
+  padding: 50px 20px;
+  margin: 20px 0px auto;
+  background: #F8FBFF;
+}
+
+body main section.about-sect article.about-last-row div {
+  width: 100%;
+  max-width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 10px auto;
+}
+
+body main section.about-sect article.about-last-row div img, body main section.about-sect article.about-last-row div p {
+  width: 100%;
+  margin: auto;
+}
+
+body main section.about-sect article.about-last-row div p {
+  font-family: 'Gilroy-Bold', sans-serif;
+  font-size: 37px;
+  line-height: 43px;
+  font-style: italic;
+  color: #000000;
+  text-align: center;
+}
+
+body main section.faq-sect h1, body main section.faq-sect h2 {
+  color: #000000;
+}
+
+body main section.faq-sect h1 {
+  font-family: 'Gilroy-Regular', sans-serif;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 45px;
+  line-height: 55px;
+  text-align: center;
+}
+
+body main section.faq-sect article {
+  margin: 10px auto;
+  width: 90%;
+}
+
+body main section.faq-sect article div.faq-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 20px auto;
+  padding: 5px;
+}
+
+body main section.faq-sect article div.faq-item, body main section.faq-sect article div.faq-item h2, body main section.faq-sect article div.faq-item p {
+  width: 100%;
+  max-width: 100%;
+}
+
+body main section.faq-sect article div.faq-item h2.faq-title {
+  font-family: 'Gilroy-Bold', sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 27px;
+  line-height: 33px;
+  text-align: center;
+}
+
+body main section.faq-sect article div.faq-item p.faq-text {
+  font-family: 'Gilroy-Bold', sans-serif;
+  font-weight: 150;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: justify;
 }
 
 body#dashboard {
@@ -673,9 +828,6 @@ body#dashboard footer nav ul li a {
 }
 
 @media screen and (min-width: 700px) {
-  body {
-    width: auto;
-  }
   body main, body header, body footer {
     margin: 0px;
   }
@@ -756,6 +908,16 @@ body#dashboard footer nav ul li a {
     font-style: normal;
     font-weight: bold;
     color: #011B33;
+  }
+  body main section.faq-sect article {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: auto auto;
+        grid-template-columns: auto auto;
+    grid-gap: 30px;
+  }
+  body main section.faq-sect article div.faq-item h2.faq-title {
+    text-align: left;
   }
   body form {
     width: 430px;
@@ -1155,6 +1317,12 @@ body#dashboard footer nav ul li a {
     text-decoration: none;
     color: #011B33;
   }
+  body main section.about-sect article.about-last-row div {
+    width: 50%;
+  }
+  body main section.about-sect article.about-last-row div p {
+    text-align: left;
+  }
 }
 
 @media screen and (min-width: 1152px) {
@@ -1162,6 +1330,12 @@ body#dashboard footer nav ul li a {
     padding: 30px 100px;
     width: calc(100% - 200px);
     max-width: calc(100% - 200px);
+    overflow-x: hidden;
+  }
+  body#about-page main section.about-sect article.about-last-row {
+    margin-bottom: -30px;
+    -webkit-transform: scaleX(1.175);
+            transform: scaleX(1.175);
   }
 }
 /*# sourceMappingURL=stylesheet.css.map */

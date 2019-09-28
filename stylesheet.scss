@@ -86,6 +86,11 @@ body{
     h1, h2, h3{
         font-family: 'Gilroy-Heavy', sans-serif;
         // font-weight: bold;
+        text-align: center;
+    }
+
+    h2.view, h3.view-no{
+        font-family: 'Gilroy-Regular', sans-serif;
     }
 
     header{
@@ -186,7 +191,7 @@ body{
 
     section#finance-history{
         display: none;
-        flex-wrap: wrap;
+        grid-template-rows: 100px 100px auto;
 
         article{
             display: grid;
@@ -410,6 +415,161 @@ body{
                         // max-width: 400px;
                         // max-height: 400px;
                         margin: auto;
+                    }
+                }
+            }
+
+            //About Page
+            &#about-main{
+                margin: 0px;
+            }
+
+            section.about-sect{
+                h1{
+                    font-size: 45px; 
+                    font-family: 'Gilroy-Bold', sans-serif; 
+                    font-weight: 400; 
+                }
+
+                h2{
+                    font-size: 45px; 
+                    font-family: 'Gilroy-Medium', sans-serif; 
+                    font-weight: 400; 
+                }
+
+                h1, h2{
+                    margin: 10px auto;
+                }
+
+                article{
+                    &.write-up{
+                        p{
+                            font-family: 'Gilroy-Regular', sans-serif;
+                            font-style: normal;
+                            font-weight: normal;
+                            font-size: 27px;
+                            line-height: 32px;
+                            text-align: center;
+                            color: #000000;
+                        }
+                    }
+
+                    &.xterstics-container{
+                        padding: 50px 20px;
+                        margin: 20px auto;
+
+                        div.xterstic{
+                            $padX: 20px;
+                            $padY: 30px;
+
+                            $wid: 299px - ($padX * 2);
+                            $heg: 336px - ($padY * 2);
+
+                            width: $wid;
+                            height: $heg;
+                            margin: 30px auto;
+                            padding: $padY $padX;
+                            background: #FFFFFF;
+                            box-shadow: 15px 14px 1px rgba(0, 0, 0, 0.25);
+                            border-radius: 9px;
+                            display: flex;
+                            flex-wrap: wrap;
+
+                            img, p{
+                                margin: 10px auto;
+                            }
+
+                            img{
+                                width: 150px;
+                                height: 150px;
+                            }
+
+                            p{
+                                font-family: 'Gilroy-Medium', sans-serif; 
+                                font-size: 23px;
+                                line-height: 27px;
+                                text-align: center;
+                            }
+                        }
+                    }
+
+                    &.about-last-row{
+                        width: calc(100%);
+                        max-width: 100%;
+                        padding: 50px 20px;
+                        margin: 20px 0px auto;
+                        background: #F8FBFF;
+
+                        div{
+                            width: 100%;
+                            max-width: 100%;
+                            display: flex;
+                            flex-wrap: wrap;
+                            margin: 10px auto;
+
+                            img,p{
+                                width: 100%;
+                                margin: auto;
+                            }
+
+                            p{
+                                font-family: 'Gilroy-Bold', sans-serif;
+                                font-size: 37px;
+                                line-height: 43px;
+                                font-style: italic;
+                                color: #000000;
+                                text-align: center;
+                            }
+                        }
+                    }
+                }
+            }
+
+            section.faq-sect{
+                h1, h2{
+                    color: #000000;
+                }
+
+                h1{
+                    font-family: 'Gilroy-Regular', sans-serif;
+                    font-style: normal;
+                    font-weight: 800;
+                    font-size: 45px;
+                    line-height: 55px;
+                    text-align: center;
+                }
+
+                article{
+                    margin: 10px auto;
+                    width: 90%;
+
+                    div.faq-item{
+                        display: flex;
+                        flex-wrap: wrap;
+                        margin: 20px auto;
+                        padding: 5px;
+
+                        &,h2, p{
+                            width: 100%;
+                            max-width: 100%;
+                        }
+
+                        h2.faq-title{
+                            font-family: 'Gilroy-Bold', sans-serif;
+                            font-style: normal;
+                            font-weight: 300;
+                            font-size: 27px;
+                            line-height: 33px;
+                            text-align: center;
+                        }
+
+                        p.faq-text{
+                            font-family: 'Gilroy-Bold', sans-serif;
+                            font-weight: 150;
+                            font-size: 20px;
+                            line-height: 23px;
+                            text-align: justify;
+                        }
                     }
                 }
             }
@@ -650,7 +810,7 @@ body{
 
     
     @media screen and (min-width: 700px) {
-        width: auto;
+        // width: auto;
         main, header, footer{
             margin: 0px;
         }
@@ -743,6 +903,19 @@ body{
                         font-style: normal;
                         font-weight: bold;
                         color: $blueForeColor;
+                    }
+                }
+            }
+
+            section.faq-sect{
+                article{
+                    display: grid;
+                    grid-template-columns: auto auto;
+                    grid-gap: 30px; 
+                    div.faq-item{
+                        h2.faq-title{
+                            text-align: left;
+                        } 
                     }
                 }
             }
@@ -1133,12 +1306,35 @@ body{
             }
         }
 
+        main section.about-sect article.about-last-row{
+            div{
+                width: 50%;
+
+                p{
+                    text-align: left;
+                }
+            }
+        }
         
     }
 
     @media screen and (min-width: 1152px) {
-        padding: 30px 100px;
+        $padX: 30px;
+        $padY: 100px;
+
+        padding: $padX $padY;
         width: calc(100% - 200px);
         max-width: calc(100% - 200px);
+        overflow-x: hidden;
+
+        &#about-page main section.about-sect article.about-last-row{
+            // $w: (100% - (2 * $padX));
+            // // width: calc(100% + $w);
+            // width: $w;
+            margin-bottom: -$padX;
+            // $e: calc(100% + 200px);
+            // $r: $e/100%;
+            transform: scaleX(1.175);
+        }
     }
 }
