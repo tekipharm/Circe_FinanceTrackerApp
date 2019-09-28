@@ -4,7 +4,7 @@ class Items{
         this.itemName = itemName;
         this.itemAmt = itemAmt;
     }
-}
+} 
 
 //Arrannging finance History
 class HistoFinances{
