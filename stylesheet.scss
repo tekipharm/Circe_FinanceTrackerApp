@@ -89,6 +89,10 @@ body{
         text-align: center;
     }
 
+    h2.view, h3.view-no{
+        font-family: 'Gilroy-Regular', sans-serif;
+    }
+
     header{
         &.withNav{
             padding: 10px;
@@ -187,7 +191,7 @@ body{
 
     section#finance-history{
         display: none;
-        flex-wrap: wrap;
+        grid-template-rows: 100px 100px auto;
 
         article{
             display: grid;
