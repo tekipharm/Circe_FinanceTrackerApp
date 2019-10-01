@@ -1,0 +1,168 @@
+MOSTLY IMPORTANT THING IS TRY WORKING ON THE  SIGNUP AND LOGIN WHEN THE USER SIGNUP IT SUBMIT THE USER informationGIT  TO THE database 
+
+
+work on  sending the information to the database
+Work on the add history, add the database 
+
+my code in sign.php is incorrect from number 1 to number 13 it is not send the inforamtion to the database
+my code in log.php is incorrect from number 1 to number 13 it is not send the inforamtion to the database
+
+work on the dashboard  add anything or any changes 
+Work on the logout in the dashboard
+work on uploading the image
+work on the add history button
+
+MY HEAD IS HOT SO..SO HOT
+
+
+//singup.php is the form page
+//while the sign is the php validation code
+//login.php  is the login page
+//while the log is the php validation and neccessary code
+//index.html is the homepage
+//calculate.js is the javascript code for calculation when you click on the calculate
+ <label for="finance-record-amt">
+              amount in Naira (₦):
+              <input type="number" name="amount" id="finance-record-amt" placeholder="6000" min="0" required>
+            </label>
+
+            <label for="finance-record-amt">
+              amount in Naira (₦):
+              <input type="number" name="amount" id="finance-record-amt2" placeholder="6000" min="0" required>
+            </label>
+
+
+
+            <?php
+if(isset($_POST['uploads'])){
+  $file=$_FILES['file'];
+  $filename=$_FILES['file']['name'];
+  $filetmpname=$_FILES['file']['tmp_name'];
+  $filesize=$_FILES['file']['size'];
+  $fileerror=$_FILES['file']['error'];
+  $filetype=$_FILES['file']['type'];
+  $fileext=explode('.',$filename);
+  $fileactualext=strtolower(end($fileext));
+  $allowed=array('jpg','jpeg','png','pdf');
+  if(in_array( $fileactualext,$allowed)){
+    if($fileerror===0){
+      if($filesize<5000000){
+        $filnamenew= uniqid(' ', true)." ." . $fileactualext;
+        $filedestination='uploads/'.$filnamenew;
+        move_uploaded_file($filename,$filedestination);
+
+      }else{
+        echo "your file is too big";
+      }
+
+    }
+    else{
+      echo "there was an error uploding your file";
+    }
+
+
+  }
+  else{
+    echo "You cannot upload file of this type!";
+  }
+
+ 
+  }
+
+
+?>
+ $(document).ready(function() {
+    var max_fields = 2;
+    var wrapper = $(".container1");
+    var add_button = $(".add_form_field");
+
+    var x = 1;
+
+    $(add_button).click(function(e) {
+        e.preventDefault();
+        if (x < max_fields) {
+            x++;
+            $(wrapper).append('<div><input type="text" id="price2" name="mytext[]"/><a href="#"  class="delete">Delete</a></div>'); 
+            $(wrapper).append('<div><input type="text" id="price3" name="mytext[]"/><a href="#"  class="delete">Delete</a></div>'); 
+          
+            
+        } else {
+            alert('You Reached the limits');
+           
+        }
+    });
+
+    $(wrapper).on("click", ".delete", function(e) {
+        e.preventDefault();
+        $(this).parent('div').remove();
+        x--;
+    })
+    
+});
+    
+    </script>
+    
+       $sql = "INSERT INTO  dash(title ,descriptiion, email,  item1, item2,amount1,)
+        VALUES('$title', 
+                ' $description',
+                ' $item1',
+                '$item2 ',
+                '$amount1',
+                '$amount2')";
+                $result = mysqli_query($link , $sql);
+                $_SESSION['user']=$lastname;
+                $_SESSION['success']='ACCOUNT CREATED SUCCESSFULLY';
+        header('location:dashboard.php');
+       $title = mysqli_escape_string($link, $_POST ['title']);
+    $description = mysqli_escape_string($link, $_POST ['description']);
+    $item1 = mysqli_escape_string($link, $_POST['item1']);
+    $item2 = mysqli_escape_string($link, $_POST['item2']);
+    $amount1=mysqli_escape_string($link, $_POST['amount1']);
+    $amount2=mysqli_escape_string($link, $_POST['amount2']);
+
+
+    <p class="alert alert-danger" role="alert"   style="text-align:center;"  id="invalidpassword">
+        <?php 
+        if(isset($_SESSION['success']))
+        echo $_SESSION['success'];
+        unset ($_SESSION['success']);
+        
+        ?>
+        
+    </p>
+    
+      <p class="alert alert-danger" role="alert"   style="text-align:center;"  id="invalidpassword">
+        <?php 
+        if(isset($_SESSION['user']))
+        echo  'Welcome' . " ".$_SESSION['user'];
+        unset ($_SESSION['user']);
+        
+        ?>
+
+
+        
+
+
+
+        <p class="alert alert-danger" role="alert"   style="text-align:center;"  id="invalidpassword">
+        <?php 
+        if(isset($_SESSION['success']))
+        echo $_SESSION['success'];
+        unset ($_SESSION['success']);
+        
+        ?>
+        
+    </p>
+    
+      <p class="alert alert-danger" role="alert"   style="text-align:center;"  id="invalidpassword">
+        <?php 
+        if(isset($_SESSION['user']))
+        echo  'Welcome' . " ".$_SESSION['user'];
+        unset ($_SESSION['user']);
+        
+        ?>
+        
+    </p>
+    <input type="submit" value="Calculate" id="submit-finance-record" onclick="calulate()">
+            <input type="submit" value="Add to Record" id="submit-finance-record" name="addhistory">
+    
