@@ -1,0 +1,37 @@
+body{
+    background-color: #EFF7FE;
+    font-family: 'Gilroy-regular', sans-serif;
+}
+/* #map{
+    height: 500px;
+    width: 100%;
+    border-radius: 10px;
+}  */
+h1{
+    margin-top: 10%;
+    text-align: center;
+}
+h1{
+    color: #011B33;
+    font-weight: 600;
+}
+.btn-primary{
+    background-color: #011B33;
+    border: 2px solid #EFF7FE;
+    border-radius: 6px;
+}
+.btn-primary:hover{
+    background-color: #011B33;
+}
+a{
+    color: #011B33;
+}
+hr{
+    border: .5px solid #011B33;
+}
+footer p{
+    text-align: center;
+}
+h4{
+    color: #011B33;
+}
